@@ -1,13 +1,28 @@
 package com.themealz.themealz;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
+
+import com.saulpower.piechart.adapter.PieChartAdapter;
+import com.saulpower.piechart.extra.FrictionDynamics;
+import com.saulpower.piechart.views.PieChartView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An activity representing a single Meal Option detail screen. This
@@ -20,22 +35,26 @@ import android.view.View;
  */
 public class MealOptionDetailActivity extends AppCompatActivity {
 
+    private Context mContext = this;
+    private String parentID;
+    private PieChartView mChart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mealoption_detail);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         // Show the Up button in the action bar.
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -46,18 +65,22 @@ public class MealOptionDetailActivity extends AppCompatActivity {
         //
         // http://developer.android.com/guide/components/fragments.html
         //
-        if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(MealOptionDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(MealOptionDetailFragment.ARG_ITEM_ID));
-            MealOptionDetailFragment fragment = new MealOptionDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.mealoption_detail_container, fragment)
-                    .commit();
-        }
+//        if (savedInstanceState == null) {
+//            // Create the detail fragment and add it to the activity
+//            // using a fragment transaction.
+//            Bundle arguments = new Bundle();
+//            arguments.putString(MealOptionDetailFragment.ARG_ITEM_ID,
+//                    getIntent().getStringExtra(MealOptionDetailFragment.ARG_ITEM_ID));
+//            MealOptionDetailFragment fragment = new MealOptionDetailFragment();
+//            fragment.setArguments(arguments);
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.mealoption_detail_container, fragment)
+//                    .commit();
+//        }
+
+        parentID = getIntent().getStringExtra("item_id");
+        mChart = (PieChartView) findViewById(R.id.chart);
+        new DataRequestor().execute(parentID);
     }
 
     @Override
@@ -75,5 +98,95 @@ public class MealOptionDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mChart.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mChart.onResume();
+    }
+
+    private class DataRequestor extends AsyncTask<String, Void, String> {
+        private JSONArray ja;
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL("http://themealz.com/api/mealoptions" + (params.length > 0 ? "/children/" + params[0] : ""));
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                // gets the server json data
+                BufferedReader bufferedReader =
+                        new BufferedReader(new InputStreamReader(
+                                urlConnection.getInputStream()));
+                StringBuilder stringBuilder = new StringBuilder();
+                String line = null;
+                while ((line = bufferedReader.readLine()) != null)
+                {
+                    stringBuilder.append(line);
+                }
+
+                ja = new JSONArray(stringBuilder.toString());
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (ja == null || ja.length() == 0) {
+                return;
+            }
+
+            mChart.onResume();
+
+            List<Float> slices = new ArrayList<Float>();
+            final List<String> titles = new ArrayList<String>();
+            final List<String> ids = new ArrayList<String>();
+
+            for (int i = 0 ; i < ja.length() ; i++) {
+                slices.add(1f / ja.length());
+                try {
+                    titles.add(ja.getJSONObject(i).has("label") && ja.getJSONObject(i).getString("label").length() > 0 ? ja.getJSONObject(i).getString("label") : ja.getJSONObject(i).getString("name"));
+                    ids.add(ja.getJSONObject(i).getString("_id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            PieChartAdapter adapter = new PieChartAdapter(mContext, slices, titles);
+
+            mChart.setDynamics(new FrictionDynamics(0.95f));
+            mChart.setSnapToAnchor(PieChartView.PieChartAnchor.TOP);
+            mChart.setAdapter(adapter);
+//            mChart.setOnPieChartSlideListener(new PieChartView.OnPieChartSlideListener() {
+//                @Override
+//                public void onSelectionSlided(final int index) {
+//                    setSelection(index, ids, titles);
+//                }
+//            });
+//            setSelection(mChart.getCurrentIndex(), ids, titles);
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
     }
 }
