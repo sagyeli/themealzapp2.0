@@ -1,12 +1,14 @@
 package com.themealz.themealz;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 /**
@@ -34,6 +36,7 @@ public class MealOptionListActivity extends AppCompatActivity
      */
     private boolean mTwoPane;
 
+    private TextView mMainTitle;
     private Button pizzaSlice;
     private Button sushiSlice;
     private Button meatSlice;
@@ -67,11 +70,13 @@ public class MealOptionListActivity extends AppCompatActivity
                     .setActivateOnItemClick(true);
         }
 
+        mMainTitle = (TextView) findViewById(R.id.main_title);
         pizzaSlice = (Button) findViewById(R.id.pizza_slice);
         sushiSlice = (Button) findViewById(R.id.sushi_slice);
         meatSlice = (Button) findViewById(R.id.meat_slice);
         falafelSlice = (Button) findViewById(R.id.falafel_slice);
 
+        mMainTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
         pizzaSlice.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onItemSelected("5613bbe719bd6b4f232e6bfb");
