@@ -1,5 +1,6 @@
 package com.themealz.themealz;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -7,6 +8,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -35,6 +41,7 @@ public class MealOptionListActivity extends AppCompatActivity
      * device.
      */
     private boolean mTwoPane;
+    private Context mContext = this;
 
     private TextView mMainTitle;
     private Button pizzaSlice;
@@ -97,6 +104,41 @@ public class MealOptionListActivity extends AppCompatActivity
                 onItemSelected("5613bdf519bd6b4f232e6c0d");
             }
         });
+
+        Animation fadeInAnimation = new AlphaAnimation(0, 1);
+        fadeInAnimation.setInterpolator(new DecelerateInterpolator());
+        fadeInAnimation.setStartOffset(1000);
+        fadeInAnimation.setDuration(750);
+        mMainTitle.setAnimation(fadeInAnimation);
+
+
+        Animation marginAnimation = new Animation() {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                final float scale = mContext.getResources().getDisplayMetrics().density;
+                int factor = (int)((236 * scale + 0.5f) * (1 - interpolatedTime)) + 4;
+                ViewGroup.MarginLayoutParams layoutParams;
+
+                layoutParams = (ViewGroup.MarginLayoutParams) pizzaSlice.getLayoutParams();
+                layoutParams.setMargins(factor, factor, factor, factor);
+                pizzaSlice.setLayoutParams(layoutParams);
+
+                layoutParams = (ViewGroup.MarginLayoutParams) sushiSlice.getLayoutParams();
+                layoutParams.setMargins(factor, factor, factor, factor);
+                sushiSlice.setLayoutParams(layoutParams);
+
+                layoutParams = (ViewGroup.MarginLayoutParams) meatSlice.getLayoutParams();
+                layoutParams.setMargins(factor, factor, factor, factor);
+                meatSlice.setLayoutParams(layoutParams);
+
+                layoutParams = (ViewGroup.MarginLayoutParams) falafelSlice.getLayoutParams();
+                layoutParams.setMargins(factor, factor, factor, factor);
+                falafelSlice.setLayoutParams(layoutParams);
+            }
+        };
+        marginAnimation.setStartOffset(1750);
+        marginAnimation.setDuration(1250); // in ms
+        findViewById(android.R.id.content).startAnimation(marginAnimation);
     }
 
     /**
@@ -105,24 +147,24 @@ public class MealOptionListActivity extends AppCompatActivity
      */
     @Override
     public void onItemSelected(String id) {
-        if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(MealOptionDetailFragment.ARG_ITEM_ID, id);
-            MealOptionDetailFragment fragment = new MealOptionDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.mealoption_detail_container, fragment)
-                    .commit();
-
-        } else {
+//        if (mTwoPane) {
+//            // In two-pane mode, show the detail view in this activity by
+//            // adding or replacing the detail fragment using a
+//            // fragment transaction.
+//            Bundle arguments = new Bundle();
+//            arguments.putString(MealOptionDetailFragment.ARG_ITEM_ID, id);
+//            MealOptionDetailFragment fragment = new MealOptionDetailFragment();
+//            fragment.setArguments(arguments);
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.mealoption_detail_container, fragment)
+//                    .commit();
+//
+//        } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, MealOptionDetailActivity.class);
             detailIntent.putExtra(MealOptionDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
-        }
+//        }
     }
 }

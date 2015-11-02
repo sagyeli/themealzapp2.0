@@ -1355,7 +1355,8 @@ public class PieChartView extends SurfaceView implements SurfaceHolder.Callback 
 			
         } else {
         	
-        	mDrawThread.setRunning(true);
+        	mDrawThread.
+					setRunning(true);
         	mDrawThread.start();
         }
 	}

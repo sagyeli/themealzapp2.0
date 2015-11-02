@@ -126,7 +126,7 @@ public class MealOptionDetailActivity extends AppCompatActivity {
         mChart.onResume();
     }
 
-    private void setSelection(final int index, final List<String> ids, List<String> titles) {
+    private void setSelection(final int index, final List<String> ids, final List<Boolean> hasRealChildrens, List<String> titles) {
         int imageId;
 
         switch (index % 7) {
@@ -158,8 +158,14 @@ public class MealOptionDetailActivity extends AppCompatActivity {
         mMainButton.setBackgroundResource(imageId);
         mMainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
-                detailIntent.putExtra(ARG_ITEM_ID, ids.get(index));
+                Intent detailIntent;
+                if (hasRealChildrens.get(index)) {
+                    detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
+                    detailIntent.putExtra(ARG_ITEM_ID, ids.get(index));
+                }
+                else {
+                    detailIntent = new Intent(mContext, RestaurantsListActivity.class);
+                }
                 startActivity(detailIntent);
             }
         });
@@ -205,6 +211,9 @@ public class MealOptionDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if (ja == null || ja.length() == 0) {
+                Intent detailIntent = new Intent(mContext, RestaurantsListActivity.class);
+                startActivity(detailIntent);
+
                 return;
             }
 
@@ -212,12 +221,14 @@ public class MealOptionDetailActivity extends AppCompatActivity {
 
             List<Float> slices = new ArrayList<Float>();
             final List<String> titles = new ArrayList<String>();
+            final List<Boolean> hasRealChildrens = new ArrayList<Boolean>();
             final List<String> ids = new ArrayList<String>();
 
             for (int i = 0 ; i < ja.length() ; i++) {
                 slices.add(1f / ja.length());
                 try {
                     titles.add(ja.getJSONObject(i).has("label") && ja.getJSONObject(i).getString("label").length() > 0 ? ja.getJSONObject(i).getString("label") : ja.getJSONObject(i).getString("name"));
+                    hasRealChildrens.add(ja.getJSONObject(i).getBoolean("hasRealChildren"));
                     ids.add(ja.getJSONObject(i).getString("_id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -232,10 +243,10 @@ public class MealOptionDetailActivity extends AppCompatActivity {
             mChart.setOnPieChartSlideListener(new PieChartView.OnPieChartSlideListener() {
                 @Override
                 public void onSelectionSlided(final int index) {
-                    setSelection(index, ids, titles);
+                    setSelection(index, ids, hasRealChildrens, titles);
                 }
             });
-            setSelection(mChart.getCurrentIndex(), ids, titles);
+            setSelection(mChart.getCurrentIndex(), ids, hasRealChildrens, titles);
         }
 
         @Override

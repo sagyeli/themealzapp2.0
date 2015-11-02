@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.themealz.themealz.contenttypes.DummyContent;
 
 /**
  * A list fragment representing a list of Meal Options. This fragment
@@ -68,11 +71,11 @@ public class MealOptionListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         // TODO: replace with a real list adapter.
-//        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-//                getActivity(),
-//                android.R.layout.simple_list_item_activated_1,
-//                android.R.id.text1,
-//                DummyContent.ITEMS));
+        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
+                getActivity(),
+                R.layout.customized_list_item,
+                android.R.id.text1,
+                DummyContent.ITEMS));
     }
 
     @Override

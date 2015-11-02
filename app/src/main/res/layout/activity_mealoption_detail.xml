@@ -1,9 +1,11 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/drawer_layout"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context=".MealOptionDetailActivity">
+    tools:context=".MealOptionDetailActivity"
+    android:background="@drawable/main_background" >
 
     <RelativeLayout
+        android:id="@+id/piechart_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -25,7 +27,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/mainroundedbutton"/>
+            android:background="@drawable/main_rounded_button" />
 
         <TextView
             android:id="@+id/main_button_title"
@@ -37,7 +39,23 @@
             android:layout_centerVertical="true"
             android:textColor="@color/default_text_color"
             android:textSize="21dp"
-            android:paddingTop="145dp"/>
+            android:paddingTop="145dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/restaurants_list_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
+
+        <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--xmlns:tools="http://schemas.android.com/tools" android:id="@+id/mealoption_list"-->
+            <!--android:name="com.themealz.themealz.MealOptionListFragment" android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--tools:context=".MealOptionDetailActivity"-->
+            <!--tools:layout="@android:layout/list_content" />-->
 
     </RelativeLayout>
 
