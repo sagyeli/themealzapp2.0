@@ -1,13 +1,24 @@
 package com.themealz.themealz;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.themealz.themealz.contenttypes.DummyContent;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A list fragment representing a list of Meal Options. This fragment
@@ -36,6 +47,8 @@ public class MealOptionListFragment extends ListFragment {
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
+
+    private ListFragment mContext = this;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -70,12 +83,7 @@ public class MealOptionListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                R.layout.customized_list_item,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        new DataRequestor().execute("");
     }
 
     @Override
@@ -112,10 +120,6 @@ public class MealOptionListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
-
-        // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
-//        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
     }
 
     @Override
@@ -147,5 +151,87 @@ public class MealOptionListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    private class DataRequestor extends AsyncTask<String, Void, String> {
+        private JSONArray ja;
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL("http://themealz.com/api/restaurants");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                // gets the server json data
+                BufferedReader bufferedReader =
+                        new BufferedReader(new InputStreamReader(
+                                urlConnection.getInputStream()));
+                StringBuilder stringBuilder = new StringBuilder();
+                String line = null;
+                while ((line = bufferedReader.readLine()) != null)
+                {
+                    stringBuilder.append(line);
+                }
+
+                ja = new JSONArray(stringBuilder.toString());
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (ja == null || ja.length() == 0) {
+                return;
+            }
+
+            List<DummyItem> items = new ArrayList<DummyItem>();
+
+            for (int i = 0 ; i < ja.length() ; i++) {
+                try {
+                    items.add(new DummyItem(ja.getJSONObject(i).getString("_id"), ja.getJSONObject(i).getString("name"), ja.getJSONObject(i).getString("info")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            mContext.setListAdapter(new ArrayAdapter<DummyItem>(
+                    mContext.getActivity(),
+                    R.layout.customized_list_item,
+                    android.R.id.text1,
+                    items));
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
+    }
+
+    public static class DummyItem {
+        public String id;
+        public String content;
+        public String details;
+
+        public DummyItem(String id, String content, String details) {
+            this.id = id;
+            this.content = content;
+            this.details = details;
+        }
+
+        @Override
+        public String toString() {
+            return content;
+        }
     }
 }
