@@ -33,7 +33,7 @@ import android.widget.TextView;
  * {@link MealOptionListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class MealOptionListActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements MealOptionListFragment.Callbacks {
 
     /**

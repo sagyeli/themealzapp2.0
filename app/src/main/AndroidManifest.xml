@@ -11,18 +11,18 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MealOptionListActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".MealOptionDetailActivity"
             android:label="@string/title_mealoption_detail"
-            android:parentActivityName=".MealOptionListActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MealOptionListActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity android:name=".RestaurantsListActivity"
             android:label="@string/app_name"
