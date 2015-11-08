@@ -29,7 +29,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class MealOptionListFragment extends ListFragment {
+public class RestaurantsListFragment extends ListFragment {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -76,7 +76,7 @@ public class MealOptionListFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public MealOptionListFragment() {
+    public RestaurantsListFragment() {
     }
 
     @Override
@@ -194,17 +194,17 @@ public class MealOptionListFragment extends ListFragment {
                 return;
             }
 
-            List<DummyItem> items = new ArrayList<DummyItem>();
+            List<RestaurantItem> items = new ArrayList<RestaurantItem>();
 
             for (int i = 0 ; i < ja.length() ; i++) {
                 try {
-                    items.add(new DummyItem(ja.getJSONObject(i).getString("_id"), ja.getJSONObject(i).getString("name"), ja.getJSONObject(i).getString("info")));
+                    items.add(new RestaurantItem(ja.getJSONObject(i).getString("_id"), ja.getJSONObject(i).getString("name"), ja.getJSONObject(i).getString("info")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
-            mContext.setListAdapter(new ArrayAdapter<DummyItem>(
+            mContext.setListAdapter(new ArrayAdapter<RestaurantItem>(
                     mContext.getActivity(),
                     R.layout.customized_list_item,
                     android.R.id.text1,
@@ -218,12 +218,12 @@ public class MealOptionListFragment extends ListFragment {
         protected void onProgressUpdate(Void... values) {}
     }
 
-    public static class DummyItem {
+    public static class RestaurantItem {
         public String id;
         public String content;
         public String details;
 
-        public DummyItem(String id, String content, String details) {
+        public RestaurantItem(String id, String content, String details) {
             this.id = id;
             this.content = content;
             this.details = details;

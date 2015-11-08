@@ -3,14 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context="com.themealz.themealz.RestaurantsListActivity"
-    android:background="@drawable/main_background" >
+    android:background="@drawable/main_background"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/restaurants_list_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/restaurants_list_title"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/default_text_color"
+        android:textSize="27dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <fragment
-        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/mealoption_list"
-        android:name="com.themealz.themealz.MealOptionListFragment" android:layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/restaurants_list"
+        android:name="com.themealz.themealz.RestaurantsListFragment" android:layout_width="match_parent"
         android:layout_height="match_parent" android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         tools:context=".RestaurantsListActivity"
-        tools:layout="@android:layout/list_content" />
+        tools:layout="@android:layout/list_content"
+        android:layout_below="@+id/restaurants_list_title"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

@@ -26,15 +26,15 @@ import android.widget.TextView;
  * item details side-by-side using two vertical panes.
  * <p/>
  * The activity makes heavy use of fragments. The list of items is a
- * {@link MealOptionListFragment} and the item details
+ * {@link RestaurantsListFragment} and the item details
  * (if present) is a {@link MealOptionDetailFragment}.
  * <p/>
  * This activity also implements the required
- * {@link MealOptionListFragment.Callbacks} interface
+ * {@link RestaurantsListFragment.Callbacks} interface
  * to listen for item selections.
  */
 public class MainActivity extends AppCompatActivity
-        implements MealOptionListFragment.Callbacks {
+        implements RestaurantsListFragment.Callbacks {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((MealOptionListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.mealoption_list))
-                    .setActivateOnItemClick(true);
+//            ((RestaurantsListFragment) getSupportFragmentManager()
+//                    .findFragmentById(R.id.restaurants_list))
+//                    .setActivateOnItemClick(true);
         }
 
         mMainTitle = (TextView) findViewById(R.id.main_title);
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Callback method from {@link MealOptionListFragment.Callbacks}
+     * Callback method from {@link RestaurantsListFragment.Callbacks}
      * indicating that the item with the given ID was selected.
      */
     @Override

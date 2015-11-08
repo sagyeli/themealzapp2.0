@@ -17,8 +17,8 @@
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
 
-    <fragment android:id="@+id/mealoption_list"
-        android:name="com.themealz.themealz.MealOptionListFragment" android:layout_width="0dp"
+    <fragment android:id="@+id/restaurants_list"
+        android:name="com.themealz.themealz.RestaurantsListFragment" android:layout_width="0dp"
         android:layout_height="match_parent" android:layout_weight="1"
         tools:layout="@android:layout/list_content" />
 
