@@ -135,7 +135,7 @@ public class RestaurantsListActivity extends AppCompatActivity
             }
 
 //            List<RestaurantItem> items = new ArrayList<RestaurantItem>();
-            mRestaurantsTable.removeAllViews();
+//            mRestaurantsTable.removeAllViews();
 
             for (int i = 0 ; i < ja.length() ; i++) {
                 try {
@@ -156,9 +156,26 @@ public class RestaurantsListActivity extends AppCompatActivity
                     TextView td2 = new TextView(mContext);
                     td2.setText(ja.getJSONObject(i).getString("name"));
                     td2.setTextColor(getResources().getColor(R.color.default_text_color));
-                    td1.setTextSize(30);
-                    td1.setPadding(10, 10, 10, 10);
+                    td2.setPadding(10, 10, 10, 10);
                     tr.addView(td2);
+
+                    TextView td3 = new TextView(mContext);
+                    td3.setText("תעריף");
+                    td3.setTextColor(getResources().getColor(R.color.default_text_color));
+                    td3.setPadding(10, 10, 10, 10);
+                    tr.addView(td3);
+
+                    TextView td4 = new TextView(mContext);
+                    td4.setText("זמן");
+                    td4.setTextColor(getResources().getColor(R.color.default_text_color));
+                    td4.setPadding(10, 10, 10, 10);
+                    tr.addView(td4);
+
+                    TextView td5 = new TextView(mContext);
+                    td5.setText("דירוג");
+                    td5.setTextColor(getResources().getColor(R.color.default_text_color));
+                    td5.setPadding(10, 10, 10, 10);
+                    tr.addView(td5);
 
                     mRestaurantsTable.addView(tr);
                 } catch (JSONException e) {

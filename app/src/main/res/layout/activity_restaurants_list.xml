@@ -21,10 +21,63 @@
         android:id="@+id/restaurants_table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layoutDirection="rtl"
-        android:textDirection="rtl"
         android:layout_below="@+id/restaurants_list_title"
-        android:layout_centerHorizontal="true"></TableLayout>
+        android:layout_centerHorizontal="true">
+
+        <TableRow
+            android:id="@+id/tr_head"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle">
+
+            <TextView
+                android:id="@+id/tv_hidden1"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/default_text_color"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/tv_hidden2"
+                android:layout_gravity="center_horizontal"
+                android:text="שם המסעדה"
+                android:textColor="@color/default_text_color"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/tv_hidden3"
+                android:layout_gravity="center_horizontal"
+                android:text="$"
+                android:textColor="@color/default_text_color"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/tv_hidden4"
+                android:layout_gravity="center_horizontal"
+                android:text="זמן"
+                android:textColor="@color/default_text_color"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/tv_hidden5"
+                android:layout_gravity="center_horizontal"
+                android:text="דירוג"
+                android:textColor="@color/default_text_color"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:gravity="center" />
+
+        </TableRow>
+
+    </TableLayout>
 
     <!--<fragment-->
         <!--xmlns:tools="http://schemas.android.com/tools" android:id="@+id/restaurants_list"-->
