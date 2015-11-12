@@ -1,5 +1,6 @@
 package com.themealz.themealz;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class RestaurantsListActivity extends AppCompatActivity
@@ -100,10 +102,13 @@ public class RestaurantsListActivity extends AppCompatActivity
         private void addItemToRow(String text, TableRow tableRow, HashMap properties) {
             TextView tv = new TextView(mContext);
             tv.setText(text);
-            tv.setTextColor(getResources().getColor(R.color.default_text_color));
+            tv.setTextColor(Color.WHITE);
             tv.setPadding(10, 10, 10, 10);
 
             if (properties != null) {
+                if (properties.containsKey("textColor")) {
+                    tv.setTextColor(getResources().getColor((Integer) properties.get("textColor")));
+                }
                 if (properties.containsKey("textSize")) {
                     tv.setTextSize((Float) properties.get("textSize"));
                 }
@@ -162,10 +167,10 @@ public class RestaurantsListActivity extends AppCompatActivity
                             TableRow.LayoutParams.FILL_PARENT,
                             TableRow.LayoutParams.WRAP_CONTENT));
 
-                    addItemToRow(Integer.toString(i + 1), tr, new HashMap<String, Object>() {{ put("textSize", 30f); }});
+                    addItemToRow(Integer.toString(i + 1), tr, new HashMap<String, Object>() {{ put("textSize", 30f); put("textColor", R.color.default_text_color); }});
                     addItemToRow(ja.getJSONObject(i).getString("name"), tr, null);
-                    addItemToRow("תעריף", tr, null);
-                    addItemToRow("זמן", tr, null);
+                    addItemToRow(new DecimalFormat("##.##").format(Math.random() * 100) + " ש\"ח", tr, null);
+                    addItemToRow(new DecimalFormat("##").format(Math.random() * 60) + " דק'", tr, null);
                     addItemToRow("דירוג", tr, null);
 
                     mRestaurantsTable.addView(tr);

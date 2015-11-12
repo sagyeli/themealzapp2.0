@@ -23,53 +23,62 @@
         android:layout_height="match_parent"
         android:stretchColumns="1"
         android:layout_below="@+id/restaurants_list_title"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:padding="10dp">
 
         <TableRow
             android:id="@+id/tr_head"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:showDividers="middle">
+            android:showDividers="middle"
+            android:background="@color/actionbar_background">
 
             <TextView
-                android:id="@+id/tv_hidden1"
-                android:layout_gravity="center_horizontal"
+                android:id="@+id/tv_header1"
+                android:layout_gravity="center"
                 android:text=""
-                android:textColor="@color/default_text_color"
+                android:textColor="@android:color/white"
                 android:textAlignment="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:padding="10dp" />
 
             <TextView
-                android:id="@+id/tv_hidden2"
-                android:layout_gravity="center_horizontal"
+                android:id="@+id/tv_header2"
+                android:layout_gravity="center"
                 android:text="שם המסעדה"
-                android:textColor="@color/default_text_color"
+                android:textColor="@android:color/white"
                 android:textAlignment="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:padding="10dp" />
 
             <TextView
-                android:id="@+id/tv_hidden3"
-                android:layout_gravity="center_horizontal"
+                android:id="@+id/tv_header3"
+                android:layout_gravity="center"
                 android:text="$"
                 android:textColor="@color/default_text_color"
                 android:textAlignment="center"
-                android:gravity="center" />
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:padding="10dp" />
 
             <TextView
-                android:id="@+id/tv_hidden4"
-                android:layout_gravity="center_horizontal"
+                android:id="@+id/tv_header4"
+                android:layout_gravity="center"
                 android:text="זמן"
-                android:textColor="@color/default_text_color"
+                android:textColor="@android:color/white"
                 android:textAlignment="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:padding="10dp" />
 
-            <TextView
-                android:id="@+id/tv_hidden5"
-                android:layout_gravity="center_horizontal"
-                android:text="דירוג"
-                android:textColor="@color/default_text_color"
+            <ImageView
+                android:id="@+id/tv_header5"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_action_star_10"
+                android:textColor="@android:color/white"
                 android:textAlignment="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:padding="10dp" />
 
         </TableRow>
 
