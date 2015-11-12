@@ -21,8 +21,9 @@
         android:id="@+id/restaurants_table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:stretchColumns="1"
         android:layout_below="@+id/restaurants_list_title"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true" >
 
         <TableRow
             android:id="@+id/tr_head"
@@ -35,7 +36,6 @@
                 android:layout_gravity="center_horizontal"
                 android:text=""
                 android:textColor="@color/default_text_color"
-                android:layout_weight="1"
                 android:textAlignment="center"
                 android:gravity="center" />
 
@@ -44,7 +44,6 @@
                 android:layout_gravity="center_horizontal"
                 android:text="שם המסעדה"
                 android:textColor="@color/default_text_color"
-                android:layout_weight="1"
                 android:textAlignment="center"
                 android:gravity="center" />
 
@@ -53,7 +52,6 @@
                 android:layout_gravity="center_horizontal"
                 android:text="$"
                 android:textColor="@color/default_text_color"
-                android:layout_weight="1"
                 android:textAlignment="center"
                 android:gravity="center" />
 
@@ -62,7 +60,6 @@
                 android:layout_gravity="center_horizontal"
                 android:text="זמן"
                 android:textColor="@color/default_text_color"
-                android:layout_weight="1"
                 android:textAlignment="center"
                 android:gravity="center" />
 
@@ -71,7 +68,6 @@
                 android:layout_gravity="center_horizontal"
                 android:text="דירוג"
                 android:textColor="@color/default_text_color"
-                android:layout_weight="1"
                 android:textAlignment="center"
                 android:gravity="center" />
 

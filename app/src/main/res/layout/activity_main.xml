@@ -29,30 +29,30 @@
             <TableRow android:id="@+id/mainTableRow01"
                 android:gravity="center_vertical|center_horizontal">
 
-                <Button android:id="@+id/pizza_slice"
-                    android:layout_width="160dp" android:layout_height="160dp"
-                    android:layout_margin="240dp"
-                    android:background="@drawable/pizza_slice"></Button>
-
                 <Button android:id="@+id/sushi_slice"
                     android:layout_width="160dp" android:layout_height="160dp"
                     android:layout_margin="240dp"
                     android:background="@drawable/sushi_slice"></Button>
+
+                <Button android:id="@+id/pizza_slice"
+                    android:layout_width="160dp" android:layout_height="160dp"
+                    android:layout_margin="240dp"
+                    android:background="@drawable/pizza_slice"></Button>
 
             </TableRow>
 
             <TableRow android:id="@+id/mainTableRow02"
                 android:gravity="center_vertical|center_horizontal">
 
-                <Button android:id="@+id/meat_slice"
-                    android:layout_width="160dp" android:layout_height="160dp"
-                    android:layout_margin="240dp"
-                    android:background="@drawable/meat_slice"></Button>
-
                 <Button android:id="@+id/falafel_slice"
                     android:layout_width="160dp" android:layout_height="160dp"
                     android:layout_margin="240dp"
                     android:background="@drawable/falafel_slice"></Button>
+
+                <Button android:id="@+id/meat_slice"
+                    android:layout_width="160dp" android:layout_height="160dp"
+                    android:layout_margin="240dp"
+                    android:background="@drawable/meat_slice"></Button>
 
             </TableRow>
 

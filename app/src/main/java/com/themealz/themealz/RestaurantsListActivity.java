@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 public class RestaurantsListActivity extends AppCompatActivity
         implements RestaurantsListFragment.Callbacks {
@@ -96,6 +97,21 @@ public class RestaurantsListActivity extends AppCompatActivity
     private class DataRequestor extends AsyncTask<String, Void, String> {
         private JSONArray ja;
 
+        private void addItemToRow(String text, TableRow tableRow, HashMap properties) {
+            TextView tv = new TextView(mContext);
+            tv.setText(text);
+            tv.setTextColor(getResources().getColor(R.color.default_text_color));
+            tv.setPadding(10, 10, 10, 10);
+
+            if (properties != null) {
+                if (properties.containsKey("textSize")) {
+                    tv.setTextSize((Float) properties.get("textSize"));
+                }
+            }
+
+            tableRow.addView(tv);
+        }
+
         @Override
         protected String doInBackground(String... params) {
             try {
@@ -146,36 +162,11 @@ public class RestaurantsListActivity extends AppCompatActivity
                             TableRow.LayoutParams.FILL_PARENT,
                             TableRow.LayoutParams.WRAP_CONTENT));
 
-                    TextView td1 = new TextView(mContext);
-                    td1.setText(Integer.toString(i + 1));
-                    td1.setTextColor(getResources().getColor(R.color.default_text_color));
-                    td1.setTextSize(30);
-                    td1.setPadding(10, 10, 10, 10);
-                    tr.addView(td1);
-
-                    TextView td2 = new TextView(mContext);
-                    td2.setText(ja.getJSONObject(i).getString("name"));
-                    td2.setTextColor(getResources().getColor(R.color.default_text_color));
-                    td2.setPadding(10, 10, 10, 10);
-                    tr.addView(td2);
-
-                    TextView td3 = new TextView(mContext);
-                    td3.setText("תעריף");
-                    td3.setTextColor(getResources().getColor(R.color.default_text_color));
-                    td3.setPadding(10, 10, 10, 10);
-                    tr.addView(td3);
-
-                    TextView td4 = new TextView(mContext);
-                    td4.setText("זמן");
-                    td4.setTextColor(getResources().getColor(R.color.default_text_color));
-                    td4.setPadding(10, 10, 10, 10);
-                    tr.addView(td4);
-
-                    TextView td5 = new TextView(mContext);
-                    td5.setText("דירוג");
-                    td5.setTextColor(getResources().getColor(R.color.default_text_color));
-                    td5.setPadding(10, 10, 10, 10);
-                    tr.addView(td5);
+                    addItemToRow(Integer.toString(i + 1), tr, new HashMap<String, Object>() {{ put("textSize", 30f); }});
+                    addItemToRow(ja.getJSONObject(i).getString("name"), tr, null);
+                    addItemToRow("תעריף", tr, null);
+                    addItemToRow("זמן", tr, null);
+                    addItemToRow("דירוג", tr, null);
 
                     mRestaurantsTable.addView(tr);
                 } catch (JSONException e) {
