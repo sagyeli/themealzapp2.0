@@ -1,10 +1,14 @@
 package com.themealz.themealz;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
+import android.widget.RatingBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -159,19 +163,33 @@ public class RestaurantsListActivity extends AppCompatActivity
 //            mRestaurantsTable.removeAllViews();
 
             for (int i = 0 ; i < ja.length() ; i++) {
+                //                    items.add(new RestaurantItem(ja.getJSONObject(i).getString("_id"), ja.getJSONObject(i).getString("name"), ja.getJSONObject(i).getString("info")));
+
+                TableRow tr = new TableRow(mContext);
+                tr.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.FILL_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+
                 try {
-//                    items.add(new RestaurantItem(ja.getJSONObject(i).getString("_id"), ja.getJSONObject(i).getString("name"), ja.getJSONObject(i).getString("info")));
+                    addItemToRow(Integer.toString(i + 1), tr, new HashMap<String, Object>() {{
+                        put("textSize", 30f);
+                        put("textColor", R.color.default_text_color);
+                    }});
 
-                    TableRow tr = new TableRow(mContext);
-                    tr.setLayoutParams(new TableRow.LayoutParams(
-                            TableRow.LayoutParams.FILL_PARENT,
-                            TableRow.LayoutParams.WRAP_CONTENT));
-
-                    addItemToRow(Integer.toString(i + 1), tr, new HashMap<String, Object>() {{ put("textSize", 30f); put("textColor", R.color.default_text_color); }});
                     addItemToRow(ja.getJSONObject(i).getString("name"), tr, null);
                     addItemToRow(new DecimalFormat("##.##").format(Math.random() * 100) + " ש\"ח", tr, null);
                     addItemToRow(new DecimalFormat("##").format(Math.random() * 60) + " דק'", tr, null);
-                    addItemToRow("דירוג", tr, null);
+
+                    RatingBar rb = new RatingBar(mContext, null, android.R.attr.ratingBarStyleSmall);
+                    LayerDrawable stars = ((LayerDrawable) rb.getProgressDrawable());
+                    stars.getDrawable(2).setColorFilter(getResources().getColor(R.color.yellow_dark), PorterDuff.Mode.SRC_ATOP);
+                    TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(0, Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 21, getResources().getDisplayMetrics())), 0, 0);
+                    rb.setLayoutParams(params);
+                    rb.setNumStars(5);
+                    rb.setStepSize(0.5f);
+                    rb.setRating(i % 2 == 0 ? 5 : 0);
+                    tr.addView(rb);
 
                     mRestaurantsTable.addView(tr);
                 } catch (JSONException e) {
