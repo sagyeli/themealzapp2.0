@@ -33,8 +33,7 @@ import android.widget.TextView;
  * {@link RestaurantsListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class MainActivity extends AppCompatActivity
-        implements RestaurantsListFragment.Callbacks {
+public class MainActivity extends AppCompatActivity {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -141,30 +140,9 @@ public class MainActivity extends AppCompatActivity
         findViewById(android.R.id.content).startAnimation(marginAnimation);
     }
 
-    /**
-     * Callback method from {@link RestaurantsListFragment.Callbacks}
-     * indicating that the item with the given ID was selected.
-     */
-    @Override
     public void onItemSelected(String id) {
-//        if (mTwoPane) {
-//            // In two-pane mode, show the detail view in this activity by
-//            // adding or replacing the detail fragment using a
-//            // fragment transaction.
-//            Bundle arguments = new Bundle();
-//            arguments.putString(MealOptionDetailFragment.ARG_ITEM_ID, id);
-//            MealOptionDetailFragment fragment = new MealOptionDetailFragment();
-//            fragment.setArguments(arguments);
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.mealoption_detail_container, fragment)
-//                    .commit();
-//
-//        } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, MealOptionDetailActivity.class);
-            detailIntent.putExtra(MealOptionDetailFragment.ARG_ITEM_ID, id);
-            startActivity(detailIntent);
-//        }
+        Intent detailIntent = new Intent(this, MealOptionDetailActivity.class);
+        detailIntent.putExtra(MealOptionDetailFragment.ARG_ITEM_ID, id);
+        startActivity(detailIntent);
     }
 }

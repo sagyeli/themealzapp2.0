@@ -1,5 +1,7 @@
 package com.themealz.themealz;
 
+import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -8,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -26,7 +29,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class RestaurantsListActivity extends AppCompatActivity
-        implements RestaurantsListFragment.Callbacks {
+        implements View.OnClickListener {
 
     private RestaurantsListActivity mContext = this;
 
@@ -45,59 +48,18 @@ public class RestaurantsListActivity extends AppCompatActivity
         mRestaurantsListTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
 
         new DataRequestor().execute("");
-
-//        ((RestaurantsListFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.restaurants_list))
-//                .setActivateOnItemClick(true);
     }
 
-    /**
-     * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
-     * selections.
-     */
-    public interface Callbacks {
-        /**
-         * Callback for when an item has been selected.
-         */
-        public void onItemSelected(String id);
-    }
-
-    /**
-     * A dummy implementation of the {@link Callbacks} interface that does
-     * nothing. Used only when this fragment is not attached to an activity.
-     */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
-        @Override
-        public void onItemSelected(String id) {
-        }
-    };
-
-    /**
-     * Callback method from {@link RestaurantsListFragment.Callbacks}
-     * indicating that the item with the given ID was selected.
-     */
     @Override
-    public void onItemSelected(String id) {
-//        if (mTwoPane) {
-//            // In two-pane mode, show the detail view in this activity by
-//            // adding or replacing the detail fragment using a
-//            // fragment transaction.
-//            Bundle arguments = new Bundle();
-//            arguments.putString(MealOptionDetailFragment.ARG_ITEM_ID, id);
-//            MealOptionDetailFragment fragment = new MealOptionDetailFragment();
-//            fragment.setArguments(arguments);
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.mealoption_detail_container, fragment)
-//                    .commit();
-//
-//        } else {
-//            // In single-pane mode, simply start the detail activity
-//            // for the selected item ID.
-//            Intent detailIntent = new Intent(this, MealOptionDetailActivity.class);
-//            detailIntent.putExtra(MealOptionDetailFragment.ARG_ITEM_ID, id);
-//            startActivity(detailIntent);
-//        }
+    public void onClick(View view) {
+        int[] attrs = new int[]{R.attr.selectableItemBackground};
+        TypedArray typedArray = obtainStyledAttributes(attrs);
+        int backgroundResource = typedArray.getResourceId(0, 0);
+        view.setBackgroundResource(backgroundResource);
+        typedArray.recycle();
+
+        Intent detailIntent = new Intent(this, OrderSubmission.class);
+        startActivity(detailIntent);
     }
 
     private class DataRequestor extends AsyncTask<String, Void, String> {
@@ -191,6 +153,8 @@ public class RestaurantsListActivity extends AppCompatActivity
                     rb.setRating(i % 2 == 0 ? 5 : 0);
                     tr.addView(rb);
 
+                    tr.setOnClickListener(mContext);
+
                     mRestaurantsTable.addView(tr);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -212,22 +176,5 @@ public class RestaurantsListActivity extends AppCompatActivity
 
         @Override
         protected void onProgressUpdate(Void... values) {}
-    }
-
-    public static class RestaurantItem {
-        public String id;
-        public String content;
-        public String details;
-
-        public RestaurantItem(String id, String content, String details) {
-            this.id = id;
-            this.content = content;
-            this.details = details;
-        }
-
-        @Override
-        public String toString() {
-            return content;
-        }
     }
 }

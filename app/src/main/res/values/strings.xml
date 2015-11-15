@@ -4,4 +4,7 @@
     <string name="main_title">מה בא לך לאכול?</string>
     <string name="loading">Loading\\u2026</string>
     <string name="restaurants_list_title">בחר מסעדה להזמנה</string>
+    <string name="title_activity_order_submission">Order Submission</string>
+    <string name="action_settings">Settings</string>
+    <string name="main_order_submission_title">סיכום הזמנה</string>
 </resources>
