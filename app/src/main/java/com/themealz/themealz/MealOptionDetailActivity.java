@@ -94,6 +94,8 @@ public class MealOptionDetailActivity extends AppCompatActivity {
 
         mMainButtonTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
 
+        ((TheMealzApplication) this.getApplication()).addToMealOptionIdsList(parentID);
+
         new DataRequestor().execute(parentID);
     }
 
