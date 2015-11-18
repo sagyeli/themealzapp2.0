@@ -25,8 +25,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class RestaurantsListActivity extends AppCompatActivity
         implements View.OnClickListener {
@@ -86,10 +89,25 @@ public class RestaurantsListActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params) {
             try {
-                URL url = new URL("http://themealz.com/api/restaurants");
+                URL url = new URL("http://themealz.com/api/restaurantslistsuggestions");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
+                Map<String,Object> requestParams = new LinkedHashMap<>();
+                requestParams.put("mealOptions", ((TheMealzApplication) mContext.getApplication()).getMealOptionIdsList().toArray());
+                StringBuilder postData = new StringBuilder();
+                for (Map.Entry<String,Object> param : requestParams.entrySet()) {
+                    if (postData.length() != 0) postData.append('&');
+                    postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                    postData.append('=');
+                    postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+                }
+                byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                urlConnection.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+                urlConnection.setDoOutput(true);
+                urlConnection.getOutputStream().write(postDataBytes);
                 urlConnection.connect();
+
                 // gets the server json data
                 BufferedReader bufferedReader =
                         new BufferedReader(new InputStreamReader(
@@ -138,9 +156,9 @@ public class RestaurantsListActivity extends AppCompatActivity
                         put("textColor", R.color.default_text_color);
                     }});
 
-                    addItemToRow(ja.getJSONObject(i).getString("name"), tr, null);
-                    addItemToRow(new DecimalFormat("##.##").format(Math.random() * 100) + " ש\"ח", tr, null);
-                    addItemToRow(new DecimalFormat("##").format(Math.random() * 60) + " דק'", tr, null);
+                    addItemToRow(ja.getJSONObject(i).getJSONObject("restaurant").getString("name"), tr, null);
+                    addItemToRow(new DecimalFormat("##.##").format(ja.getJSONObject(i).getLong("price")) + " ש\"ח", tr, null);
+                    addItemToRow(new DecimalFormat("##").format(ja.getJSONObject(i).getLong("timeInMinutes")) + " דק'", tr, null);
 
                     RatingBar rb = new RatingBar(mContext, null, android.R.attr.ratingBarStyleSmall);
                     LayerDrawable stars = ((LayerDrawable) rb.getProgressDrawable());
@@ -150,7 +168,7 @@ public class RestaurantsListActivity extends AppCompatActivity
                     rb.setLayoutParams(params);
                     rb.setNumStars(5);
                     rb.setStepSize(0.5f);
-                    rb.setRating(i % 2 == 0 ? 5 : 0);
+                    rb.setRating(ja.getJSONObject(i).getLong("grade"));
                     tr.addView(rb);
 
                     tr.setOnClickListener(mContext);
