@@ -2,7 +2,6 @@ package com.themealz.themealz;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -12,10 +11,6 @@ import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.saulpower.piechart.adapter.PieChartAdapter;
-import com.saulpower.piechart.extra.FrictionDynamics;
-import com.saulpower.piechart.views.PieChartView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +39,7 @@ public class MealOptionDetailActivity extends AppCompatActivity {
 
     private Context mContext = this;
     private String parentID;
-    private PieChartView mChart;
+//    private PieChartView mChart;
     private Button mMainButton;
     private TextView mMainButtonTitle;
 
@@ -88,11 +83,11 @@ public class MealOptionDetailActivity extends AppCompatActivity {
 //        }
 
         parentID = getIntent().getStringExtra(ARG_ITEM_ID);
-        mChart = (PieChartView) findViewById(R.id.chart);
-        mMainButton = (Button) findViewById(R.id.main_button);
-        mMainButtonTitle = (TextView) findViewById(R.id.main_button_title);
+//        mChart = (PieChartView) findViewById(R.id.chart);
+//        mMainButton = (Button) findViewById(R.id.main_button);
+//        mMainButtonTitle = (TextView) findViewById(R.id.main_button_title);
 
-        mMainButtonTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
+//        mMainButtonTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
 
         ((TheMealzApplication) this.getApplication()).addToMealOptionIdsList(parentID);
 
@@ -119,13 +114,13 @@ public class MealOptionDetailActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mChart.onPause();
+//        mChart.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mChart.onResume();
+//        mChart.onResume();
     }
 
     private void setSelection(final int index, final List<String> ids, final List<Boolean> hasRealChildrens, List<String> titles) {
@@ -219,7 +214,7 @@ public class MealOptionDetailActivity extends AppCompatActivity {
                 return;
             }
 
-            mChart.onResume();
+//            mChart.onResume();
 
             List<Float> slices = new ArrayList<Float>();
             final List<String> titles = new ArrayList<String>();
@@ -237,18 +232,18 @@ public class MealOptionDetailActivity extends AppCompatActivity {
                 }
             }
 
-            PieChartAdapter adapter = new PieChartAdapter(mContext, slices, titles);
-
-            mChart.setDynamics(new FrictionDynamics(0.95f));
-            mChart.setSnapToAnchor(PieChartView.PieChartAnchor.TOP);
-            mChart.setAdapter(adapter);
-            mChart.setOnPieChartSlideListener(new PieChartView.OnPieChartSlideListener() {
-                @Override
-                public void onSelectionSlided(final int index) {
-                    setSelection(index, ids, hasRealChildrens, titles);
-                }
-            });
-            setSelection(mChart.getCurrentIndex(), ids, hasRealChildrens, titles);
+//            PieChartAdapter adapter = new PieChartAdapter(mContext, slices, titles);
+//
+//            mChart.setDynamics(new FrictionDynamics(0.95f));
+//            mChart.setSnapToAnchor(PieChartView.PieChartAnchor.TOP);
+//            mChart.setAdapter(adapter);
+//            mChart.setOnPieChartSlideListener(new PieChartView.OnPieChartSlideListener() {
+//                @Override
+//                public void onSelectionSlided(final int index) {
+//                    setSelection(index, ids, hasRealChildrens, titles);
+//                }
+//            });
+//            setSelection(mChart.getCurrentIndex(), ids, hasRealChildrens, titles);
         }
 
         @Override
