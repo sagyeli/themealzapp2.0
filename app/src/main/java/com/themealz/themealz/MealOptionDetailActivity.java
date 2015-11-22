@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.carouseldemo.controls.Carousel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -40,6 +42,7 @@ public class MealOptionDetailActivity extends AppCompatActivity {
     private Context mContext = this;
     private String parentID;
 //    private PieChartView mChart;
+    private Carousel mCarousel;
     private Button mMainButton;
     private TextView mMainButtonTitle;
 
@@ -48,42 +51,9 @@ public class MealOptionDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mealoption_detail);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-        // Show the Up button in the action bar.
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
-//        if (savedInstanceState == null) {
-//            // Create the detail fragment and add it to the activity
-//            // using a fragment transaction.
-//            Bundle arguments = new Bundle();
-//            arguments.putString(MealOptionDetailFragment.ARG_ITEM_ID,
-//                    getIntent().getStringExtra(MealOptionDetailFragment.ARG_ITEM_ID));
-//            MealOptionDetailFragment fragment = new MealOptionDetailFragment();
-//            fragment.setArguments(arguments);
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.mealoption_detail_container, fragment)
-//                    .commit();
-//        }
-
         parentID = getIntent().getStringExtra(ARG_ITEM_ID);
 //        mChart = (PieChartView) findViewById(R.id.chart);
+        mCarousel = (Carousel) findViewById(R.id.carousel);
 //        mMainButton = (Button) findViewById(R.id.main_button);
 //        mMainButtonTitle = (TextView) findViewById(R.id.main_button_title);
 
@@ -216,13 +186,40 @@ public class MealOptionDetailActivity extends AppCompatActivity {
 
 //            mChart.onResume();
 
-            List<Float> slices = new ArrayList<Float>();
-            final List<String> titles = new ArrayList<String>();
-            final List<Boolean> hasRealChildrens = new ArrayList<Boolean>();
-            final List<String> ids = new ArrayList<String>();
+//            ArrayList<Float> slices = new ArrayList<Float>();
+            ArrayList<Integer> slices = new ArrayList<Integer>();
+            final ArrayList<String> titles = new ArrayList<String>();
+            final ArrayList<Boolean> hasRealChildrens = new ArrayList<Boolean>();
+            final ArrayList<String> ids = new ArrayList<String>();
 
             for (int i = 0 ; i < ja.length() ; i++) {
-                slices.add(1f / ja.length());
+                switch (i % 7) {
+                    case 0:
+                        slices.add(R.drawable.image01);
+                        break;
+                    case 1:
+                        slices.add(R.drawable.image02);
+                        break;
+                    case 2:
+                        slices.add(R.drawable.image03);
+                        break;
+                    case 3:
+                        slices.add(R.drawable.image04);
+                        break;
+                    case 4:
+                        slices.add(R.drawable.image05);
+                        break;
+                    case 5:
+                        slices.add(R.drawable.image06);
+                        break;
+                    case 6:
+                        slices.add(R.drawable.image07);
+                        break;
+                    default:
+                        slices.add(R.drawable.image01);
+                }
+
+//                slices.add(1f / ja.length());
                 try {
                     titles.add(ja.getJSONObject(i).has("label") && ja.getJSONObject(i).getString("label").length() > 0 ? ja.getJSONObject(i).getString("label") : ja.getJSONObject(i).getString("name"));
                     hasRealChildrens.add(ja.getJSONObject(i).getBoolean("hasRealChildren"));
@@ -231,6 +228,14 @@ public class MealOptionDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
+            mCarousel.setItems(slices, titles);
+            mCarousel.setOnCarouselListener(new Carousel.OnCarouselListener() {
+                @Override
+                public void onSelectionClicked(final int index) {
+
+                }
+            });
 
 //            PieChartAdapter adapter = new PieChartAdapter(mContext, slices, titles);
 //

@@ -194,6 +194,16 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
      */
     private boolean mUseReflection;
 
+    /**
+     * If items should be reflected
+     */
+    private OnCarouselListener mOnCarouselListener;
+
+    public void setOnCarouselListener(
+            OnCarouselListener mOnCarouselListener) {
+        this.mOnCarouselListener = mOnCarouselListener;
+    }
+
     // Constructors
 
 	public Carousel(Context context)  {
@@ -223,47 +233,47 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
 		// Retrieve settings
 		TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.Carousel);
 		mAnimationDuration = arr.getInteger(R.styleable.Carousel_android_animationDuration, 400);
-		mUseReflection = arr.getBoolean(R.styleable.Carousel_UseReflection, false);	
+		mUseReflection = arr.getBoolean(R.styleable.Carousel_UseReflection, false);
 		int selectedItem = arr.getInteger(R.styleable.Carousel_SelectedItem, 0);
-		int imageArrayID = arr.getResourceId(R.styleable.Carousel_Items, -1);		
-		TypedArray images = getResources().obtainTypedArray(imageArrayID);
-		
+//		int imageArrayID = arr.getResourceId(R.styleable.Carousel_Items, -1);
+//		TypedArray images = getResources().obtainTypedArray(imageArrayID);
+
 		// Retrieve names
 		int namesForItems = arr.getResourceId(R.styleable.Carousel_Names, -1);
-		
-		TypedArray names = null;
-		if(namesForItems != -1)
-			names = getResources().obtainTypedArray(namesForItems);
-		
+
+//		TypedArray names = null;
+//		if(namesForItems != -1)
+//			names = getResources().obtainTypedArray(namesForItems);
+
 		int min = arr.getInteger(R.styleable.Carousel_minQuantity, MIN_QUANTITY);
 		int max = arr.getInteger(R.styleable.Carousel_maxQuantity, MAX_QUANTITY);
-		
+
 		float mTheta = arr.getFloat(R.styleable.Carousel_maxTheta, MAX_THETA);
 		if(mTheta > MAX_THETA || mTheta < 0.0f)
 			mTheta = MAX_THETA;
-		
+
 		mMinQuantity = min < MIN_QUANTITY ? MIN_QUANTITY : min;
 		mMaxQuantity = max > MAX_QUANTITY ? MAX_QUANTITY : max;
-		
+
 		if(arr.length() < mMinQuantity || arr.length() > mMaxQuantity)
 			throw new IllegalArgumentException("Invalid set of items.");
-								
-		// Initialize image adapter
-		ImageAdapter adapter = new ImageAdapter(getContext());
-		adapter.SetImages(images, names, mUseReflection);
-		
-	    setAdapter(adapter);
 
-	    if(selectedItem < 0 || selectedItem >= adapter.getCount())
-	    	selectedItem = 0;
+//		// Initialize image adapter
+//		ImageAdapter adapter = new ImageAdapter(getContext());
+//		adapter.SetImages(images, names, mUseReflection);
+//
+//	    setAdapter(adapter);
+//
+//	    if(selectedItem < 0 || selectedItem >= adapter.getCount())
+//	    	selectedItem = 0;
+//
+//	    // next time we go through layout with this value
+//        setNextSelectedPositionInt(selectedItem);
+//
+//        images.recycle();
+//        if(names != null)
+//        	names.recycle();
 
-	    // next time we go through layout with this value
-        setNextSelectedPositionInt(selectedItem);
-        
-        images.recycle();        
-        if(names != null)
-        	names.recycle();
-		
 	}
 			
 	// View overrides
@@ -638,8 +648,23 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
         // Updates any metadata we keep about the selected item.
         updateSelectedItemMetadata();
     }
-    	
-      
+
+    public void setItems(ArrayList<Integer> slices, ArrayList<String> titles) {
+        // Initialize image adapter
+        ImageAdapter adapter = new ImageAdapter(getContext());
+        adapter.SetImages(slices, titles, mUseReflection);
+
+        setAdapter(adapter);
+
+        // next time we go through layout with this value
+        setNextSelectedPositionInt(0);
+
+        mInLayout = true;
+        layout(0, false);
+        mInLayout = false;
+    }
+
+
     // Rotation class for the Carousel    
 	
 	private class FlingRotateRunnable implements Runnable {
@@ -839,6 +864,81 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
 			
 			
 		}
+
+        public void SetImages(ArrayList<Integer> array, ArrayList<String> names, boolean reflected){
+            if(names != null)
+                if(array.size() != names.size())
+                    throw new RuntimeException("Images and names arrays length doesn't match");
+
+            final int reflectionGap = 4;
+
+            Drawable[] drawables = new Drawable[array.size()];
+            mImages = new CarouselItem[array.size()];
+
+            for(int i = 0; i < array.size(); i++)
+            {
+                drawables[i] = getResources().getDrawable(array.get(i));
+                Bitmap originalImage = ((BitmapDrawable)drawables[i]).getBitmap();
+
+                if(reflected){
+                    int width = originalImage.getWidth();
+                    int height = originalImage.getHeight();
+
+                    // This will not scale but will flip on the Y axis
+                    Matrix matrix = new Matrix();
+                    matrix.preScale(1, -1);
+
+                    // Create a Bitmap with the flip matrix applied to it.
+                    // We only want the bottom half of the image
+                    Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0,
+                            height / 2, width, height / 2, matrix, false);
+
+                    // Create a new bitmap with same width but taller to fit
+                    // reflection
+                    Bitmap bitmapWithReflection = Bitmap.createBitmap(width,
+                            (height + height / 2), Config.ARGB_8888);
+
+                    // Create a new Canvas with the bitmap that's big enough for
+                    // the image plus gap plus reflection
+                    Canvas canvas = new Canvas(bitmapWithReflection);
+                    // Draw in the original image
+                    canvas.drawBitmap(originalImage, 0, 0, null);
+                    // Draw in the gap
+                    Paint deafaultPaint = new Paint();
+                    canvas.drawRect(0, height, width, height + reflectionGap,
+                            deafaultPaint);
+                    // Draw in the reflection
+                    canvas.drawBitmap(reflectionImage, 0, height + reflectionGap,
+                            null);
+
+                    // Create a shader that is a linear gradient that covers the
+                    // reflection
+                    Paint paint = new Paint();
+                    LinearGradient shader = new LinearGradient(0,
+                            originalImage.getHeight(), 0,
+                            bitmapWithReflection.getHeight() + reflectionGap,
+                            0x70ffffff, 0x00ffffff, TileMode.CLAMP);
+                    // Set the paint to use this shader (linear gradient)
+                    paint.setShader(shader);
+                    // Set the Transfer mode to be porter duff and destination in
+                    paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
+                    // Draw a rectangle using the paint with our linear gradient
+                    canvas.drawRect(0, height, width,
+                            bitmapWithReflection.getHeight() + reflectionGap, paint);
+
+                    originalImage = bitmapWithReflection;
+                }
+
+                CarouselItem item = new CarouselItem(mContext);
+                item.setIndex(i);
+                item.setImageBitmap(originalImage);
+                if(names != null)
+                    item.setText(names.get(i));
+                mImages[i] = item;
+
+
+            }
+        }
 
 		public int getCount() {
 			if(mImages == null)
@@ -1438,6 +1538,8 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
         }
         
     }
-    
-	    
+
+    public interface OnCarouselListener {
+        public void onSelectionClicked(int index);
+    }
 }

@@ -29,8 +29,6 @@
             android:layout_height="fill_parent"
             android:id="@+id/carousel"
             pj:UseReflection="true"
-            pj:Items="@array/entries"
-            pj:Names="@array/names"
             pj:SelectedItem="0"
             android:animationDuration="200" />
 
