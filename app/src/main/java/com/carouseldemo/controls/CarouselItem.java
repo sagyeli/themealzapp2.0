@@ -3,6 +3,7 @@ package com.carouseldemo.controls;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class CarouselItem extends FrameLayout
 	  	
 		mImage = (ImageView)itemTemplate.findViewById(R.id.item_image);
 		mText = (TextView)itemTemplate.findViewById(R.id.item_text);
-				
+    	mText.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/regular.ttf"));
 	}	
 	
 	public String getName(){
