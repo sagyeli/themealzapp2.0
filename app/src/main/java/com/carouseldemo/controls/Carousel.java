@@ -194,16 +194,6 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
      */
     private boolean mUseReflection;
 
-    /**
-     * If items should be reflected
-     */
-    private OnCarouselListener mOnCarouselListener;
-
-    public void setOnCarouselListener(
-            OnCarouselListener mOnCarouselListener) {
-        this.mOnCarouselListener = mOnCarouselListener;
-    }
-
     // Constructors
 
 	public Carousel(Context context)  {
@@ -327,9 +317,9 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
         } else if (action == MotionEvent.ACTION_CANCEL) {
             onCancel();
         }
-        
+
         return retValue;
-    }	    
+    }
     
     /**
      * Extra information about the item for which the context menu should be shown.
@@ -1537,9 +1527,5 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
             oldSelectedChild.setFocusable(false);
         }
         
-    }
-
-    public interface OnCarouselListener {
-        public void onSelectionClicked(int index);
     }
 }

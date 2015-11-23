@@ -124,6 +124,6 @@ public class CarouselItem extends FrameLayout
 
 	void setCIMatrix(Matrix mMatrix) {
 		this.mCIMatrix = mMatrix;
-	}	
-	
+	}
+
 }

@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.SoundEffectConstants;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.carouseldemo.controls.Carousel;
+import com.carouseldemo.controls.CarouselAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +22,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An activity representing a single Meal Option detail screen. This
@@ -41,10 +38,7 @@ public class MealOptionDetailActivity extends AppCompatActivity {
 
     private Context mContext = this;
     private String parentID;
-//    private PieChartView mChart;
     private Carousel mCarousel;
-    private Button mMainButton;
-    private TextView mMainButtonTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +46,7 @@ public class MealOptionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mealoption_detail);
 
         parentID = getIntent().getStringExtra(ARG_ITEM_ID);
-//        mChart = (PieChartView) findViewById(R.id.chart);
         mCarousel = (Carousel) findViewById(R.id.carousel);
-//        mMainButton = (Button) findViewById(R.id.main_button);
-//        mMainButtonTitle = (TextView) findViewById(R.id.main_button_title);
-
-//        mMainButtonTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
 
         ((TheMealzApplication) this.getApplication()).addToMealOptionIdsList(parentID);
 
@@ -84,60 +73,11 @@ public class MealOptionDetailActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        mChart.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        mChart.onResume();
-    }
-
-    private void setSelection(final int index, final List<String> ids, final List<Boolean> hasRealChildrens, List<String> titles) {
-        int imageId;
-
-        switch (index % 7) {
-            case 0:
-                imageId = R.drawable.image01;
-                break;
-            case 1:
-                imageId = R.drawable.image02;
-                break;
-            case 2:
-                imageId = R.drawable.image03;
-                break;
-            case 3:
-                imageId = R.drawable.image04;
-                break;
-            case 4:
-                imageId = R.drawable.image05;
-                break;
-            case 5:
-                imageId = R.drawable.image06;
-                break;
-            case 6:
-                imageId = R.drawable.image07;
-                break;
-            default:
-                imageId = R.drawable.image01;
-        }
-
-        mMainButton.setBackgroundResource(imageId);
-        mMainButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent detailIntent;
-                if (hasRealChildrens.get(index)) {
-                    detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
-                    detailIntent.putExtra(ARG_ITEM_ID, ids.get(index));
-                }
-                else {
-                    detailIntent = new Intent(mContext, RestaurantsListActivity.class);
-                }
-                startActivity(detailIntent);
-            }
-        });
-        mMainButtonTitle.setText(titles.get(index));
-        findViewById(android.R.id.content).playSoundEffect(SoundEffectConstants.CLICK);
     }
 
     private class DataRequestor extends AsyncTask<String, Void, String> {
@@ -230,25 +170,20 @@ public class MealOptionDetailActivity extends AppCompatActivity {
             }
 
             mCarousel.setItems(slices, titles);
-            mCarousel.setOnCarouselListener(new Carousel.OnCarouselListener() {
+            mCarousel.setOnItemClickListener(new CarouselAdapter.OnItemClickListener(){
                 @Override
-                public void onSelectionClicked(final int index) {
-
+                public void onItemClick(CarouselAdapter<?> parent, View view, int position, long id) {
+                    Intent detailIntent;
+                    if (hasRealChildrens.get(position)) {
+                        detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
+                        detailIntent.putExtra(ARG_ITEM_ID, ids.get(position));
+                    }
+                    else {
+                        detailIntent = new Intent(mContext, RestaurantsListActivity.class);
+                    }
+                    startActivity(detailIntent);
                 }
             });
-
-//            PieChartAdapter adapter = new PieChartAdapter(mContext, slices, titles);
-//
-//            mChart.setDynamics(new FrictionDynamics(0.95f));
-//            mChart.setSnapToAnchor(PieChartView.PieChartAnchor.TOP);
-//            mChart.setAdapter(adapter);
-//            mChart.setOnPieChartSlideListener(new PieChartView.OnPieChartSlideListener() {
-//                @Override
-//                public void onSelectionSlided(final int index) {
-//                    setSelection(index, ids, hasRealChildrens, titles);
-//                }
-//            });
-//            setSelection(mChart.getCurrentIndex(), ids, hasRealChildrens, titles);
         }
 
         @Override
