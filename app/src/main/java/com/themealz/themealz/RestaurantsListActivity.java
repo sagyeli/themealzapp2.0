@@ -37,6 +37,8 @@ public class RestaurantsListActivity extends AppCompatActivity
     private RestaurantsListActivity mContext = this;
 
     private TextView mRestaurantsListTitle;
+    private TextView mOrderSummary;
+    private TextView mOrderSummaryDetails;
     private TableLayout mRestaurantsTable;
 
     @Override
@@ -46,9 +48,13 @@ public class RestaurantsListActivity extends AppCompatActivity
 
 
         mRestaurantsListTitle = (TextView) findViewById(R.id.restaurants_list_title);
+        mOrderSummary = (TextView) findViewById(R.id.order_summary);
+        mOrderSummaryDetails = (TextView) findViewById(R.id.order_summary_details);
         mRestaurantsTable = (TableLayout) findViewById(R.id.restaurants_table);
 
         mRestaurantsListTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
+        mOrderSummary.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
+        mOrderSummaryDetails.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
 
         new DataRequestor().execute("");
     }
