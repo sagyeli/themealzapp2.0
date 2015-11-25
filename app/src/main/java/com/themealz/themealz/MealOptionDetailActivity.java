@@ -35,9 +35,11 @@ import java.util.ArrayList;
 public class MealOptionDetailActivity extends AppCompatActivity {
 
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_LAST_ITEM_ID = "last_item_id";
 
     private Context mContext = this;
     private String parentID;
+
     private Carousel mCarousel;
 
     @Override
@@ -47,8 +49,6 @@ public class MealOptionDetailActivity extends AppCompatActivity {
 
         parentID = getIntent().getStringExtra(ARG_ITEM_ID);
         mCarousel = (Carousel) findViewById(R.id.carousel);
-
-        ((TheMealzApplication) this.getApplication()).addToMealOptionIdsList(parentID);
 
         new DataRequestor().execute(parentID);
     }
@@ -78,6 +78,13 @@ public class MealOptionDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).removeFromMealOptionsMap(parentID);
+
+        super.onBackPressed();
     }
 
     private class DataRequestor extends AsyncTask<String, Void, String> {
@@ -173,6 +180,8 @@ public class MealOptionDetailActivity extends AppCompatActivity {
             mCarousel.setOnItemClickListener(new CarouselAdapter.OnItemClickListener(){
                 @Override
                 public void onItemClick(CarouselAdapter<?> parent, View view, int position, long id) {
+                    ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).addToMealOptionsMap(ids.get(position), titles.get(position));
+
                     Intent detailIntent;
                     if (hasRealChildrens.get(position)) {
                         detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
@@ -180,6 +189,7 @@ public class MealOptionDetailActivity extends AppCompatActivity {
                     }
                     else {
                         detailIntent = new Intent(mContext, RestaurantsListActivity.class);
+                        detailIntent.putExtra(ARG_LAST_ITEM_ID, ids.get(position));
                     }
                     startActivity(detailIntent);
                 }

@@ -2,29 +2,41 @@ package com.themealz.themealz;
 
 import android.app.Application;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TheMealzApplication extends Application {
 
-    private ArrayList<String> mealOptionIdsList;
+    private HashMap<String, String> mealOptionsMap;
 
     public TheMealzApplication() {
-        this.mealOptionIdsList = new ArrayList<String>();
+        this.mealOptionsMap = new HashMap<String, String>();
     }
 
-    public ArrayList<String> getMealOptionIdsList() {
-        return this.mealOptionIdsList;
+    public HashMap<String, String> getMealOptionsMap() {
+        return this.mealOptionsMap;
     }
 
-    public void setMealIdsOptionsList(ArrayList<String> mealsOptionsList) {
-        this.mealOptionIdsList = mealsOptionsList;
+    public void setMealIdsOptionsList(HashMap<String, String> mealsOptionsList) {
+        this.mealOptionsMap = mealsOptionsList;
     }
 
-    public void addToMealOptionIdsList(String mealsOptionIds) {
-        this.mealOptionIdsList.add(mealsOptionIds);
+    public void addToMealOptionsMap(String mealsOptionId, String mealsOptionTitle) {
+        this.mealOptionsMap.put(mealsOptionId, mealsOptionTitle);
     }
 
-    public void clearMealOptionIdsList() {
-        this.mealOptionIdsList.clear();
+    public void removeFromMealOptionsMap(String parentID) {
+        Object text = this.mealOptionsMap.remove(parentID);
+    }
+
+    public void clearMealOptionsMap() {
+        this.mealOptionsMap.clear();
+    }
+
+    public String[] getIdsArray() {
+        return this.mealOptionsMap.keySet().toArray(new String[this.mealOptionsMap.size()]);
+    }
+
+    public String[] getTitlesArray() {
+        return this.mealOptionsMap.values().toArray(new String[this.mealOptionsMap.size()]);
     }
 }

@@ -26,7 +26,8 @@
         android:background="@drawable/order_summary_wrapper_border"
         android:layoutDirection="rtl"
         android:padding="10dp"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/order_summary"
@@ -54,7 +55,8 @@
             android:textColor="@color/default_text_color"
             android:textSize="16dp"
             android:layout_centerHorizontal="true"
-            android:nestedScrollingEnabled="true" />
+            android:nestedScrollingEnabled="true"
+            android:layout_weight="1" />
 
     </LinearLayout>
 

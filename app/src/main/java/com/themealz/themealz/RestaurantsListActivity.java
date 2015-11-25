@@ -9,6 +9,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.RatingBar;
@@ -34,7 +35,10 @@ import java.util.Map;
 public class RestaurantsListActivity extends AppCompatActivity
         implements View.OnClickListener {
 
+    public static final String ARG_LAST_ITEM_ID = "last_item_id";
+
     private RestaurantsListActivity mContext = this;
+    private String lastItemID;
 
     private TextView mRestaurantsListTitle;
     private TextView mOrderSummary;
@@ -46,6 +50,7 @@ public class RestaurantsListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurants_list);
 
+        lastItemID = getIntent().getStringExtra(ARG_LAST_ITEM_ID);
 
         mRestaurantsListTitle = (TextView) findViewById(R.id.restaurants_list_title);
         mOrderSummary = (TextView) findViewById(R.id.order_summary);
@@ -55,6 +60,8 @@ public class RestaurantsListActivity extends AppCompatActivity
         mRestaurantsListTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
         mOrderSummary.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
         mOrderSummaryDetails.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
+
+        mOrderSummaryDetails.setText(TextUtils.join(" + ", ((TheMealzApplication) mContext.getApplication()).getTitlesArray()));
 
         new DataRequestor().execute("");
     }
@@ -69,6 +76,13 @@ public class RestaurantsListActivity extends AppCompatActivity
 
         Intent detailIntent = new Intent(this, OrderSubmission.class);
         startActivity(detailIntent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).removeFromMealOptionsMap(lastItemID);
+
+        super.onBackPressed();
     }
 
     private class DataRequestor extends AsyncTask<String, Void, String> {
@@ -98,7 +112,7 @@ public class RestaurantsListActivity extends AppCompatActivity
                 URL url = new URL("http://themealz.com/api/restaurantslistsuggestions");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 Map<String,Object> requestParams = new LinkedHashMap<>();
-                requestParams.put("mealOptions", ((TheMealzApplication) mContext.getApplication()).getMealOptionIdsList().toArray());
+                requestParams.put("mealOptions", ((TheMealzApplication) mContext.getApplication()).getIdsArray());
                 StringBuilder postData = new StringBuilder();
                 for (Map.Entry<String,Object> param : requestParams.entrySet()) {
                     if (postData.length() != 0) postData.append('&');
