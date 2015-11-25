@@ -2,41 +2,66 @@ package com.themealz.themealz;
 
 import android.app.Application;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TheMealzApplication extends Application {
 
-    private HashMap<String, String> mealOptionsMap;
+    private ArrayList<HashMap<String, String>> mealOptionsArrayList;
+
+    private String[] pluck(String key) {
+        ArrayList<String> returnedValues = new ArrayList<String>();
+
+        for (HashMap<String, String> mealOption : this.mealOptionsArrayList) {
+            returnedValues.add(mealOption.get(key));
+        }
+
+        return returnedValues.toArray(new String[returnedValues.size()]);
+    }
 
     public TheMealzApplication() {
-        this.mealOptionsMap = new HashMap<String, String>();
+        this.mealOptionsArrayList = new ArrayList<HashMap<String, String>>();
     }
 
-    public HashMap<String, String> getMealOptionsMap() {
-        return this.mealOptionsMap;
+    public ArrayList<HashMap<String, String>> getMealOptionsArrayList() {
+        return this.mealOptionsArrayList;
     }
 
-    public void setMealIdsOptionsList(HashMap<String, String> mealsOptionsList) {
-        this.mealOptionsMap = mealsOptionsList;
+    public void setMealIdsOptionsList(ArrayList<HashMap<String, String>> mealsOptionsList) {
+        this.mealOptionsArrayList = mealsOptionsList;
     }
 
-    public void addToMealOptionsMap(String mealsOptionId, String mealsOptionTitle) {
-        this.mealOptionsMap.put(mealsOptionId, mealsOptionTitle);
+    public void addToMealOptionsMap(final String mealsOptionId, final String mealsOptionTitle) {
+        this.mealOptionsArrayList.add(new HashMap<String, String>() {{
+            put("id", mealsOptionId);
+            put("title", mealsOptionTitle);
+        }});
     }
 
     public void removeFromMealOptionsMap(String parentID) {
-        Object text = this.mealOptionsMap.remove(parentID);
+        HashMap<String, String> mealOptionToRemove = null;
+
+        for (HashMap<String, String> mealOption : this.mealOptionsArrayList) {
+            if (mealOption.get("id").equals(parentID)) {
+                mealOptionToRemove = mealOption;
+                break;
+            }
+        }
+
+        if (mealOptionToRemove != null) {
+            this.mealOptionsArrayList.remove(mealOptionToRemove);
+        }
     }
 
     public void clearMealOptionsMap() {
-        this.mealOptionsMap.clear();
+        this.mealOptionsArrayList.clear();
     }
 
     public String[] getIdsArray() {
-        return this.mealOptionsMap.keySet().toArray(new String[this.mealOptionsMap.size()]);
+        return pluck("id");
     }
 
     public String[] getTitlesArray() {
-        return this.mealOptionsMap.values().toArray(new String[this.mealOptionsMap.size()]);
+        return pluck("title");
     }
 }
