@@ -26,11 +26,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class RestaurantsListActivity extends AppCompatActivity
         implements View.OnClickListener {
@@ -111,18 +108,11 @@ public class RestaurantsListActivity extends AppCompatActivity
             try {
                 URL url = new URL("http://themealz.com/api/restaurantslistsuggestions");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                Map<String,Object> requestParams = new LinkedHashMap<>();
-                requestParams.put("mealOptions", ((TheMealzApplication) mContext.getApplication()).getIdsArray());
                 StringBuilder postData = new StringBuilder();
-                for (Map.Entry<String,Object> param : requestParams.entrySet()) {
-                    if (postData.length() != 0) postData.append('&');
-                    postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
-                    postData.append('=');
-                    postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
-                }
+                postData.append("{ \"mealOptions\": [\"" + TextUtils.join("\",\"", ((TheMealzApplication) mContext.getApplication()).getIdsArray()) + "\"] }");
                 byte[] postDataBytes = postData.toString().getBytes("UTF-8");
                 urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
                 urlConnection.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
                 urlConnection.setDoOutput(true);
                 urlConnection.getOutputStream().write(postDataBytes);
