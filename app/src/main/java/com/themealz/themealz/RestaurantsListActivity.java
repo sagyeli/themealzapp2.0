@@ -27,6 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RestaurantsListActivity extends AppCompatActivity
@@ -36,6 +37,8 @@ public class RestaurantsListActivity extends AppCompatActivity
 
     private RestaurantsListActivity mContext = this;
     private String lastItemID;
+    private ArrayList<String> mealIds;
+    private ArrayList<String> mealRestaurantsNames;
 
     private TextView mRestaurantsListTitle;
     private TextView mOrderSummary;
@@ -48,6 +51,9 @@ public class RestaurantsListActivity extends AppCompatActivity
         setContentView(R.layout.activity_restaurants_list);
 
         lastItemID = getIntent().getStringExtra(ARG_LAST_ITEM_ID);
+
+        mealIds = new ArrayList<String>();
+        mealRestaurantsNames = new ArrayList<String>();
 
         mRestaurantsListTitle = (TextView) findViewById(R.id.restaurants_list_title);
         mOrderSummary = (TextView) findViewById(R.id.order_summary);
@@ -70,6 +76,12 @@ public class RestaurantsListActivity extends AppCompatActivity
         int backgroundResource = typedArray.getResourceId(0, 0);
         view.setBackgroundResource(backgroundResource);
         typedArray.recycle();
+
+        final int index = ((TableRow) view).getId();
+        ((TheMealzApplication) mContext.getApplication()).setSelectedMeal(new HashMap<String, String>(){{
+            put("id", mealIds.get(index));
+            put("restaurant_name", mealRestaurantsNames.get(index));
+        }});
 
         Intent detailIntent = new Intent(this, OrderSubmission.class);
         startActivity(detailIntent);
@@ -156,6 +168,7 @@ public class RestaurantsListActivity extends AppCompatActivity
                 //                    items.add(new RestaurantItem(ja.getJSONObject(i).getString("_id"), ja.getJSONObject(i).getString("name"), ja.getJSONObject(i).getString("info")));
 
                 TableRow tr = new TableRow(mContext);
+                tr.setId(i);
                 tr.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.FILL_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT));
@@ -165,6 +178,9 @@ public class RestaurantsListActivity extends AppCompatActivity
                         put("textSize", 30f);
                         put("textColor", R.color.default_text_color);
                     }});
+
+                    mealIds.add(ja.getJSONObject(i).getString("_id"));
+                    mealRestaurantsNames.add(ja.getJSONObject(i).getJSONObject("restaurant").getString("name"));
 
                     addItemToRow(ja.getJSONObject(i).getJSONObject("restaurant").getString("name"), tr, null);
                     addItemToRow(new DecimalFormat("##.##").format(ja.getJSONObject(i).getLong("price")) + " ש\"ח", tr, null);

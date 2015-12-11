@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class TheMealzApplication extends Application {
 
     private ArrayList<HashMap<String, String>> mealOptionsArrayList;
+    private HashMap<String, String> selectedMeal;
 
     private String[] pluck(String key) {
         ArrayList<String> returnedValues = new ArrayList<String>();
@@ -63,5 +64,13 @@ public class TheMealzApplication extends Application {
 
     public String[] getTitlesArray() {
         return pluck("title");
+    }
+
+    public HashMap<String, String> getSelectedMeal() {
+        return selectedMeal;
+    }
+
+    public void setSelectedMeal(HashMap<String, String> selectedMeal) {
+        this.selectedMeal = selectedMeal;
     }
 }
