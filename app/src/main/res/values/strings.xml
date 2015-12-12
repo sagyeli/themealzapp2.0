@@ -9,4 +9,5 @@
     <string name="main_order_submission_title">סיכום הזמנה</string>
     <string name="order_summary">סיכום הזמנה</string>
     <string name="main_order_submission_button_text"><![CDATA[המשך >]]></string>
+    <string name="order_submission_price_label">סה\"כ:</string>
 </resources>

@@ -28,6 +28,15 @@ public class TheMealzApplication extends Application {
         return this.mealOptionsArrayList;
     }
 
+    public ArrayList<String> getMealOptionsTitlesArrayList() {
+        ArrayList<String> titles = new ArrayList();
+        for (HashMap<String, String> mealOtion : this.mealOptionsArrayList) {
+            titles.add(mealOtion.get("title"));
+        }
+
+        return titles;
+    }
+
     public void setMealIdsOptionsList(ArrayList<HashMap<String, String>> mealsOptionsList) {
         this.mealOptionsArrayList = mealsOptionsList;
     }

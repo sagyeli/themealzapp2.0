@@ -29,4 +29,5 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <color name="actionbar_background">#390400</color>
+    <color name="actionbar_background_semi_transparent">#80390400</color>
 </resources>

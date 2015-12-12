@@ -38,6 +38,7 @@ public class RestaurantsListActivity extends AppCompatActivity
     private RestaurantsListActivity mContext = this;
     private String lastItemID;
     private ArrayList<String> mealIds;
+    private ArrayList<Integer> mealPrices;
     private ArrayList<String> mealRestaurantsNames;
 
     private TextView mRestaurantsListTitle;
@@ -53,6 +54,7 @@ public class RestaurantsListActivity extends AppCompatActivity
         lastItemID = getIntent().getStringExtra(ARG_LAST_ITEM_ID);
 
         mealIds = new ArrayList<String>();
+        mealPrices = new ArrayList<Integer>();
         mealRestaurantsNames = new ArrayList<String>();
 
         mRestaurantsListTitle = (TextView) findViewById(R.id.restaurants_list_title);
@@ -80,6 +82,7 @@ public class RestaurantsListActivity extends AppCompatActivity
         final int index = ((TableRow) view).getId();
         ((TheMealzApplication) mContext.getApplication()).setSelectedMeal(new HashMap<String, String>(){{
             put("id", mealIds.get(index));
+            put("price", mealPrices.get(index).toString());
             put("restaurant_name", mealRestaurantsNames.get(index));
         }});
 
@@ -180,6 +183,7 @@ public class RestaurantsListActivity extends AppCompatActivity
                     }});
 
                     mealIds.add(ja.getJSONObject(i).getString("_id"));
+                    mealPrices.add(ja.getJSONObject(i).getInt("price"));
                     mealRestaurantsNames.add(ja.getJSONObject(i).getJSONObject("restaurant").getString("name"));
 
                     addItemToRow(ja.getJSONObject(i).getJSONObject("restaurant").getString("name"), tr, null);
