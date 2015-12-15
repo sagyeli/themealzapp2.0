@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context="SplashActivity"
+    tools:context="com.themealz.themealz.OrderSubmission"
     android:background="@drawable/main_background" >
 
     <TextView
         android:id="@+id/main_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/main_order_submission_title"
+        android:text="@string/order_submission_main_title"
         android:layout_gravity="center"
         android:textColor="@color/default_text_color"
         android:textSize="27dp"
@@ -88,41 +88,12 @@
 
         </LinearLayout>
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="20dp">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/order_submission_price_label"-->
-                <!--android:textColor="@color/default_text_color"-->
-                <!--android:textSize="18dp"-->
-                <!--android:textStyle="bold"-->
-                <!--android:id="@+id/order_submission_price_label"-->
-                <!--android:layout_gravity="center_horizontal|right"-->
-                <!--android:layout_margin="20dp"-->
-                <!--android:gravity="right" />-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="@color/default_text_color"-->
-                <!--android:textSize="24dp"-->
-                <!--android:textStyle="bold"-->
-                <!--android:id="@+id/order_submission_price_value"-->
-                <!--android:layout_gravity="center_horizontal|left"-->
-                <!--android:layout_margin="20dp"-->
-                <!--android:gravity="left" />-->
-
-        <!--</LinearLayout>-->
-
     </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_order_submission_button_text"
+        android:text="@string/order_submission_submit_button"
         android:id="@+id/submit_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

@@ -1,16 +1,18 @@
 package com.themealz.themealz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class OrderSubmission extends Activity {
+public class OrderSubmission extends Activity implements View.OnClickListener {
 
     private TextView mMainTitle;
     private ImageView mOrderSubmissionRestaurantLogo;
@@ -44,6 +46,13 @@ public class OrderSubmission extends Activity {
         ArrayList<String> info = ((TheMealzApplication) getApplication()).getMealOptionsTitlesArrayList();
         mOrderSubmissionInfo.setText(TextUtils.join("\n", info.toArray(new String[info.size()])));
         mOrderSubmissionPriceValue.setText(((TheMealzApplication) getApplication()).getSelectedMeal().get("price") + " ש\"ח");
+
+        mSubmitButton.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View view) {
+        Intent detailIntent = new Intent(this, DetailsForm.class);
+        startActivity(detailIntent);
+    }
 }
