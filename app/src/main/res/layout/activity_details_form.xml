@@ -35,58 +35,42 @@
         android:layout_below="@+id/main_title">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_weight="0.20"
             android:gravity="bottom">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name_plus_last_name"
+                android:textColor="@color/default_text_color"
+                android:textSize="16dp"
+                android:layout_gravity="center_horizontal" />
+
             <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_weight="0.20"
                 android:gravity="bottom">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="טקסט"
-                    android:textColor="@color/default_text_color"
-                    android:textSize="16dp" />
-
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/editText1_1"
                     android:layout_weight="1"
-                    android:background="@drawable/order_summary_wrapper_border" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_weight="0.20"
-                android:gravity="bottom">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="טקסט"
-                    android:textColor="@color/default_text_color"
-                    android:textSize="16dp" />
+                    android:background="@drawable/order_summary_wrapper_border_right" />
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/editText1_2"
                     android:layout_weight="1"
-                    android:background="@drawable/order_summary_wrapper_border" />
+                    android:background="@drawable/order_summary_wrapper_border_left" />
 
             </LinearLayout>
 
@@ -103,9 +87,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="טקסט"
+                android:text="@string/city"
                 android:textColor="@color/default_text_color"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:layout_gravity="center_horizontal" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -127,9 +112,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="טקסט"
+                android:text="@string/street"
                 android:textColor="@color/default_text_color"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:layout_gravity="center_horizontal" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -154,18 +140,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_weight="0.20"
-                android:gravity="bottom">
+                android:gravity="bottom"
+                android:paddingLeft="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="טקסט"
+                    android:text="@string/house_number"
                     android:textColor="@color/default_text_color"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:layout_gravity="center_horizontal" />
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/editText4_1"
                     android:layout_weight="1"
                     android:background="@drawable/order_summary_wrapper_border" />
@@ -178,18 +166,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_weight="0.20"
-                android:gravity="bottom">
+                android:gravity="bottom"
+                android:paddingRight="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="טקסט"
+                    android:layout_height="match_parent"
+                    android:text="@string/flat_number"
                     android:textColor="@color/default_text_color"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:layout_gravity="center_horizontal" />
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/editText4_2"
                     android:layout_weight="1"
                     android:background="@drawable/order_summary_wrapper_border" />
@@ -209,9 +199,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="טקסט"
+                android:text="@string/phone_number"
                 android:textColor="@color/default_text_color"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:layout_gravity="center_horizontal" />
 
             <EditText
                 android:layout_width="match_parent"

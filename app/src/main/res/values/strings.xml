@@ -12,4 +12,10 @@
     <string name="order_submission_price_label">סה\"כ:</string>
     <string name="details_form_main_title">הזן פרטים אישיים והזמן</string>
     <string name="details_form_submit_button"><![CDATA[בצע הזמנה >]]></string>
+    <string name="first_name_plus_last_name">שם פרטי + משפחה</string>
+    <string name="city">עיר</string>
+    <string name="street">רחוב</string>
+    <string name="house_number">מספר בית</string>
+    <string name="flat_number">מספר דירה</string>
+    <string name="phone_number">מספר טלפון</string>
 </resources>
