@@ -63,6 +63,8 @@
                     android:layout_height="match_parent"
                     android:id="@+id/editText1_1"
                     android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textColor="@color/default_text_color"
                     android:background="@drawable/order_summary_wrapper_border_right" />
 
                 <EditText
@@ -70,6 +72,8 @@
                     android:layout_height="match_parent"
                     android:id="@+id/editText1_2"
                     android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textColor="@color/default_text_color"
                     android:background="@drawable/order_summary_wrapper_border_left" />
 
             </LinearLayout>
@@ -97,6 +101,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editText2"
                 android:layout_weight="1"
+                android:padding="5dp"
+                android:textColor="@color/default_text_color"
                 android:background="@drawable/order_summary_wrapper_border" />
 
         </LinearLayout>
@@ -122,6 +128,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editText3"
                 android:layout_weight="1"
+                android:padding="5dp"
+                android:textColor="@color/default_text_color"
                 android:background="@drawable/order_summary_wrapper_border"/>
 
         </LinearLayout>
@@ -156,6 +164,8 @@
                     android:layout_height="match_parent"
                     android:id="@+id/editText4_1"
                     android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textColor="@color/default_text_color"
                     android:background="@drawable/order_summary_wrapper_border" />
 
             </LinearLayout>
@@ -182,6 +192,8 @@
                     android:layout_height="match_parent"
                     android:id="@+id/editText4_2"
                     android:layout_weight="1"
+                    android:padding="5dp"
+                    android:textColor="@color/default_text_color"
                     android:background="@drawable/order_summary_wrapper_border" />
 
             </LinearLayout>
@@ -209,6 +221,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editText5"
                 android:layout_weight="1"
+                android:padding="5dp"
+                android:textColor="@color/default_text_color"
                 android:background="@drawable/order_summary_wrapper_border"/>
 
         </LinearLayout>
