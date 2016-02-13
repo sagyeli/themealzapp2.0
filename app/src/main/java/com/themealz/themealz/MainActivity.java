@@ -85,22 +85,22 @@ public class MainActivity extends AppCompatActivity {
         mMainTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/regular.ttf"));
         pizzaSlice.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onItemSelected("5613bbe719bd6b4f232e6bfb");
+                onItemSelected("56b207d12fa106875900635b");
             }
         });
         sushiSlice.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onItemSelected("5613b9d519bd6b4f232e6bf1");
+                onItemSelected("56b207862fa1068759006357");
             }
         });
         meatSlice.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onItemSelected("561af3f2721bc74808fc31a2");
+                onItemSelected("56b20ee52fa1068759006382");
             }
         });
         falafelSlice.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onItemSelected("5613bdf519bd6b4f232e6c0d");
+                onItemSelected("56b1e2942fa1068759006347");
             }
         });
 

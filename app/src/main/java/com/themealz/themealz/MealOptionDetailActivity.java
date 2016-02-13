@@ -9,10 +9,8 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.carouseldemo.controls.Carousel;
-import com.carouseldemo.controls.CarouselAdapter;
 
 import net.leolink.android.simpleinfinitecarousel.MyPagerAdapter;
 
@@ -46,14 +44,16 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 
     private Carousel mCarousel;
 
-    public final static int PAGES = 5;
+    public static int PAGES = 5;
     // You can choose a bigger number for LOOPS, but you know, nobody will fling
     // more than 1000 times just in order to test your "infinite" ViewPager :D
-    public final static int LOOPS = 1000;
-    public final static int FIRST_PAGE = PAGES * LOOPS / 2;
-    public final static float BIG_SCALE = 1.0f;
-    public final static float SMALL_SCALE = 0.7f;
-    public final static float DIFF_SCALE = BIG_SCALE - SMALL_SCALE;
+    public static int LOOPS = 1000;
+    public static int FIRST_PAGE = PAGES * LOOPS / 2;
+    public static float BIG_SCALE = 1.0f;
+    public static float SMALL_SCALE = 0.7f;
+    public static float DIFF_SCALE = BIG_SCALE - SMALL_SCALE;
+
+    public static ArrayList<String> titles;
 
     public MyPagerAdapter adapter;
     public ViewPager pager;
@@ -65,27 +65,9 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 
         parentID = getIntent().getStringExtra(ARG_ITEM_ID);
 //        mCarousel = (Carousel) findViewById(R.id.carousel);
-
-//        new DataRequestor().execute(parentID);
-
         pager = (ViewPager) findViewById(R.id.myviewpager);
 
-        adapter = new MyPagerAdapter(this, this.getSupportFragmentManager());
-        pager.setAdapter(adapter);
-        pager.setOnPageChangeListener(adapter);
-
-
-        // Set current item to the middle page so we can fling to both
-        // directions left and right
-        pager.setCurrentItem(FIRST_PAGE);
-
-        // Necessary or the pager will only have one extra page to show
-        // make this at least however many pages you can see
-        pager.setOffscreenPageLimit(3);
-
-        // Set margin for pages as a negative number, so a part of next and
-        // previous pages will be showed
-        pager.setPageMargin(-200);
+        new DataRequestor().execute(parentID);
     }
 
     @Override
@@ -170,7 +152,7 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 
 //            ArrayList<Float> slices = new ArrayList<Float>();
             ArrayList<Integer> slices = new ArrayList<Integer>();
-            final ArrayList<String> titles = new ArrayList<String>();
+            titles = new ArrayList<String>();
             final ArrayList<Boolean> hasRealChildrens = new ArrayList<Boolean>();
             final ArrayList<String> ids = new ArrayList<String>();
 
@@ -211,24 +193,33 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
                 }
             }
 
-            mCarousel.setItems(slices, titles);
-            mCarousel.setOnItemClickListener(new CarouselAdapter.OnItemClickListener(){
-                @Override
-                public void onItemClick(CarouselAdapter<?> parent, View view, int position, long id) {
-                    ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).addToMealOptionsMap(ids.get(position), titles.get(position));
+//            mCarousel.setItems(slices, titles);
+//            mCarousel.setOnItemClickListener(new CarouselAdapter.OnItemClickListener(){
+//                @Override
+//                public void onItemClick(CarouselAdapter<?> parent, View view, int position, long id) {
+//                    ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).addToMealOptionsMap(ids.get(position), titles.get(position));
+//
+//                    Intent detailIntent;
+//                    if (hasRealChildrens.get(position)) {
+//                        detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
+//                        detailIntent.putExtra(ARG_ITEM_ID, ids.get(position));
+//                    }
+//                    else {
+//                        detailIntent = new Intent(mContext, RestaurantsListActivity.class);
+//                        detailIntent.putExtra(ARG_LAST_ITEM_ID, ids.get(position));
+//                    }
+//                    startActivity(detailIntent);
+//                }
+//            });
 
-                    Intent detailIntent;
-                    if (hasRealChildrens.get(position)) {
-                        detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
-                        detailIntent.putExtra(ARG_ITEM_ID, ids.get(position));
-                    }
-                    else {
-                        detailIntent = new Intent(mContext, RestaurantsListActivity.class);
-                        detailIntent.putExtra(ARG_LAST_ITEM_ID, ids.get(position));
-                    }
-                    startActivity(detailIntent);
-                }
-            });
+            PAGES = ids.size();
+            FIRST_PAGE = PAGES * LOOPS / 2;
+
+            adapter = new MyPagerAdapter((MealOptionDetailActivity) mContext, ((MealOptionDetailActivity) mContext).getSupportFragmentManager());
+            pager.setAdapter(adapter);
+            pager.setOnPageChangeListener(adapter);
+            pager.setOffscreenPageLimit(3);
+            pager.setPageMargin(-200);
         }
 
         @Override

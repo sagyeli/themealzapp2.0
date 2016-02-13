@@ -8,17 +8,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.themealz.themealz.MainActivity;
 import com.themealz.themealz.MealOptionDetailActivity;
 import com.themealz.themealz.R;
 
 public class MyFragment extends Fragment {
 
-    public static Fragment newInstance(MealOptionDetailActivity context, int pos,
-                                       float scale)
+    public static Fragment newInstance(MealOptionDetailActivity context, int pos, String title, float scale)
     {
         Bundle b = new Bundle();
         b.putInt("pos", pos);
+        b.putString("title", title);
         b.putFloat("scale", scale);
         return Fragment.instantiate(context, MyFragment.class.getName(), b);
     }
@@ -34,8 +33,9 @@ public class MyFragment extends Fragment {
                 inflater.inflate(R.layout.mf, container, false);
 
         int pos = this.getArguments().getInt("pos");
+        String title = this.getArguments().getString("title");
         TextView tv = (TextView) l.findViewById(R.id.text);
-        tv.setText("Position = " + pos);
+        tv.setText(title);
 
         MyLinearLayout root = (MyLinearLayout) l.findViewById(R.id.root);
         float scale = this.getArguments().getFloat("scale");

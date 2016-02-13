@@ -33,7 +33,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter implements
             scale = MealOptionDetailActivity.SMALL_SCALE;
 
         position = position % MealOptionDetailActivity.PAGES;
-        return MyFragment.newInstance(context, position, scale);
+        return MyFragment.newInstance(context, position, MealOptionDetailActivity.titles.get(position), scale);
     }
 
     @Override
