@@ -28,4 +28,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:support-v4:23.1.0'
     compile 'com.android.support:design:23.1.0'
+    compile files('C:/Users/eli_s/AndroidStudioProjects/themealzapp2.0/libs/twilioclient-android.jar')
 }

@@ -24,13 +24,20 @@
             android:textSize="21dp"
             android:paddingTop="145dp" />
 
-        <com.carouseldemo.controls.Carousel
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/carousel"
-            pj:UseReflection="true"
-            pj:SelectedItem="0"
-            android:animationDuration="200" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/myviewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:overScrollMode="never" />
+
+        <!--<com.carouseldemo.controls.Carousel-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:id="@+id/carousel"-->
+            <!--pj:UseReflection="true"-->
+            <!--pj:SelectedItem="0"-->
+            <!--android:animationDuration="200" />-->
 
     </RelativeLayout>
 

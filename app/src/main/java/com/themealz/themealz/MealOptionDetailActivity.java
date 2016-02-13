@@ -4,13 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.carouseldemo.controls.Carousel;
 import com.carouseldemo.controls.CarouselAdapter;
+
+import net.leolink.android.simpleinfinitecarousel.MyPagerAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +36,7 @@ import java.util.ArrayList;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link MealOptionDetailFragment}.
  */
-public class MealOptionDetailActivity extends AppCompatActivity {
+public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivity*/ {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_LAST_ITEM_ID = "last_item_id";
@@ -42,15 +46,46 @@ public class MealOptionDetailActivity extends AppCompatActivity {
 
     private Carousel mCarousel;
 
+    public final static int PAGES = 5;
+    // You can choose a bigger number for LOOPS, but you know, nobody will fling
+    // more than 1000 times just in order to test your "infinite" ViewPager :D
+    public final static int LOOPS = 1000;
+    public final static int FIRST_PAGE = PAGES * LOOPS / 2;
+    public final static float BIG_SCALE = 1.0f;
+    public final static float SMALL_SCALE = 0.7f;
+    public final static float DIFF_SCALE = BIG_SCALE - SMALL_SCALE;
+
+    public MyPagerAdapter adapter;
+    public ViewPager pager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mealoption_detail);
 
         parentID = getIntent().getStringExtra(ARG_ITEM_ID);
-        mCarousel = (Carousel) findViewById(R.id.carousel);
+//        mCarousel = (Carousel) findViewById(R.id.carousel);
 
-        new DataRequestor().execute(parentID);
+//        new DataRequestor().execute(parentID);
+
+        pager = (ViewPager) findViewById(R.id.myviewpager);
+
+        adapter = new MyPagerAdapter(this, this.getSupportFragmentManager());
+        pager.setAdapter(adapter);
+        pager.setOnPageChangeListener(adapter);
+
+
+        // Set current item to the middle page so we can fling to both
+        // directions left and right
+        pager.setCurrentItem(FIRST_PAGE);
+
+        // Necessary or the pager will only have one extra page to show
+        // make this at least however many pages you can see
+        pager.setOffscreenPageLimit(3);
+
+        // Set margin for pages as a negative number, so a part of next and
+        // previous pages will be showed
+        pager.setPageMargin(-200);
     }
 
     @Override
