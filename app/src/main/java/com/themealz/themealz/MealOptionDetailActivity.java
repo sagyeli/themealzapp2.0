@@ -53,7 +53,9 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
     public static float SMALL_SCALE = 0.7f;
     public static float DIFF_SCALE = BIG_SCALE - SMALL_SCALE;
 
+    public static ArrayList<String> ids;
     public static ArrayList<String> titles;
+    public static ArrayList<Boolean> hasRealChildren;
 
     public MyPagerAdapter adapter;
     public ViewPager pager;
@@ -102,6 +104,21 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
         ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).removeFromMealOptionsMap(parentID);
 
         super.onBackPressed();
+    }
+
+    public void onItemSelected(int position) {
+        ((TheMealzApplication) this.getApplication()).addToMealOptionsMap(ids.get(position), titles.get(position));
+        
+        Intent detailIntent;
+        if (hasRealChildren.get(position)) {
+            detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
+            detailIntent.putExtra(ARG_ITEM_ID, ids.get(position));
+        }
+        else {
+            detailIntent = new Intent(mContext, RestaurantsListActivity.class);
+            detailIntent.putExtra(ARG_LAST_ITEM_ID, ids.get(position));
+        }
+        startActivity(detailIntent);
     }
 
     private class DataRequestor extends AsyncTask<String, Void, String> {
@@ -153,8 +170,8 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 //            ArrayList<Float> slices = new ArrayList<Float>();
             ArrayList<Integer> slices = new ArrayList<Integer>();
             titles = new ArrayList<String>();
-            final ArrayList<Boolean> hasRealChildrens = new ArrayList<Boolean>();
-            final ArrayList<String> ids = new ArrayList<String>();
+            hasRealChildren = new ArrayList<Boolean>();
+            ids = new ArrayList<String>();
 
             for (int i = 0 ; i < ja.length() ; i++) {
                 switch (i % 7) {
@@ -186,7 +203,7 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 //                slices.add(1f / ja.length());
                 try {
                     titles.add(ja.getJSONObject(i).has("label") && ja.getJSONObject(i).getString("label").length() > 0 ? ja.getJSONObject(i).getString("label") : ja.getJSONObject(i).getString("name"));
-                    hasRealChildrens.add(ja.getJSONObject(i).has("hasRealChildren") ? ja.getJSONObject(i).getBoolean("hasRealChildren") : false);
+                    hasRealChildren.add(ja.getJSONObject(i).has("hasRealChildren") ? ja.getJSONObject(i).getBoolean("hasRealChildren") : false);
                     ids.add(ja.getJSONObject(i).getString("_id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -200,7 +217,7 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 //                    ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).addToMealOptionsMap(ids.get(position), titles.get(position));
 //
 //                    Intent detailIntent;
-//                    if (hasRealChildrens.get(position)) {
+//                    if (hasRealChildren.get(position)) {
 //                        detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
 //                        detailIntent.putExtra(ARG_ITEM_ID, ids.get(position));
 //                    }
