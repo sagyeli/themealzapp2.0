@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.carouseldemo.controls.Carousel;
@@ -101,7 +100,8 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 
     @Override
     public void onBackPressed() {
-        ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).removeFromMealOptionsMap(parentID);
+//        ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).removeFromMealOptionsMap(parentID);
+        ((TheMealzApplication) this.getApplication()).removeFromMealOptionsMap(parentID);
 
         super.onBackPressed();
     }
