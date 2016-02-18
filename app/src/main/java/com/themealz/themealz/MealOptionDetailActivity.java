@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * An activity representing a single Meal Option detail screen. This
@@ -53,8 +54,7 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
     public static float DIFF_SCALE = BIG_SCALE - SMALL_SCALE;
 
     public static ArrayList<String> ids;
-    public static ArrayList<String> titles;
-    public static ArrayList<Boolean> hasRealChildren;
+    public static ArrayList<HashMap> infos;
 
     public MyPagerAdapter adapter;
     public ViewPager pager;
@@ -107,10 +107,10 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
     }
 
     public void onItemSelected(int position) {
-        ((TheMealzApplication) this.getApplication()).addToMealOptionsMap(ids.get(position), titles.get(position));
+        ((TheMealzApplication) this.getApplication()).addToMealOptionsMap(ids.get(position), infos.get(position).get("title").toString());
         
         Intent detailIntent;
-        if (hasRealChildren.get(position)) {
+        if ((boolean) infos.get(position).get("hasRealChildren")) {
             detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
             detailIntent.putExtra(ARG_ITEM_ID, ids.get(position));
         }
@@ -169,8 +169,7 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 
 //            ArrayList<Float> slices = new ArrayList<Float>();
             ArrayList<Integer> slices = new ArrayList<Integer>();
-            titles = new ArrayList<String>();
-            hasRealChildren = new ArrayList<Boolean>();
+            infos = new ArrayList<HashMap>();
             ids = new ArrayList<String>();
 
             for (int i = 0 ; i < ja.length() ; i++) {
@@ -202,19 +201,21 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 
 //                slices.add(1f / ja.length());
                 try {
-                    titles.add(ja.getJSONObject(i).has("label") && ja.getJSONObject(i).getString("label").length() > 0 ? ja.getJSONObject(i).getString("label") : ja.getJSONObject(i).getString("name"));
-                    hasRealChildren.add(ja.getJSONObject(i).has("hasRealChildren") ? ja.getJSONObject(i).getBoolean("hasRealChildren") : false);
+                    HashMap info = new HashMap();
+                    info.put("title", ja.getJSONObject(i).has("label") && ja.getJSONObject(i).getString("label").length() > 0 ? ja.getJSONObject(i).getString("label") : ja.getJSONObject(i).getString("name"));
+                    info.put("hasRealChildren", ja.getJSONObject(i).has("hasRealChildren") ? ja.getJSONObject(i).getBoolean("hasRealChildren") : false);
+                    infos.add(info);
                     ids.add(ja.getJSONObject(i).getString("_id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
-//            mCarousel.setItems(slices, titles);
+//            mCarousel.setItems(slices, infos);
 //            mCarousel.setOnItemClickListener(new CarouselAdapter.OnItemClickListener(){
 //                @Override
 //                public void onItemClick(CarouselAdapter<?> parent, View view, int position, long id) {
-//                    ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).addToMealOptionsMap(ids.get(position), titles.get(position));
+//                    ((TheMealzApplication) ((AppCompatActivity) mContext).getApplication()).addToMealOptionsMap(ids.get(position), infos.get(position));
 //
 //                    Intent detailIntent;
 //                    if (hasRealChildren.get(position)) {
@@ -234,9 +235,9 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 
             adapter = new MyPagerAdapter((MealOptionDetailActivity) mContext, ((MealOptionDetailActivity) mContext).getSupportFragmentManager());
             pager.setAdapter(adapter);
-            pager.setOnPageChangeListener(adapter);
+            pager.addOnPageChangeListener(adapter);
             pager.setOffscreenPageLimit(3);
-            pager.setPageMargin(-200);
+            pager.setPageMargin(-750);
         }
 
         @Override

@@ -33,7 +33,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter implements
             scale = MealOptionDetailActivity.SMALL_SCALE;
 
         position = position % MealOptionDetailActivity.PAGES;
-        return MyFragment.newInstance(context, position, MealOptionDetailActivity.titles.get(position), scale);
+        return MyFragment.newInstance(context, position, MealOptionDetailActivity.infos.get(position).get("title").toString(), scale);
     }
 
     @Override
@@ -51,10 +51,8 @@ public class MyPagerAdapter extends FragmentPagerAdapter implements
             cur = getRootView(position);
             cur.setScaleBoth(MealOptionDetailActivity.BIG_SCALE - MealOptionDetailActivity.DIFF_SCALE * positionOffset);
 
-            if (position < MealOptionDetailActivity.PAGES-1) {
-                next = getRootView(position +1);
-                next.setScaleBoth(MealOptionDetailActivity.SMALL_SCALE + MealOptionDetailActivity.DIFF_SCALE * positionOffset);
-            }
+            next = getRootView(position + 1);
+            next.setScaleBoth(MealOptionDetailActivity.SMALL_SCALE + MealOptionDetailActivity.DIFF_SCALE * positionOffset);
         }
     }
 

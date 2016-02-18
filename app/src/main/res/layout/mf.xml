@@ -15,13 +15,13 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="AAAAAAAAA" />
+            android:textColor="@color/default_text_color"
+            android:textSize="20dp" />
         <Button
             android:id="@+id/content"
-            android:layout_width="190dp"
-            android:layout_height="120dp"
-            android:background="@android:color/black">
+            android:layout_width="180dp"
+            android:layout_height="240dp"
+            android:background="@color/default_text_color">
         </Button>
     </net.leolink.android.simpleinfinitecarousel.MyLinearLayout>
 </LinearLayout>
