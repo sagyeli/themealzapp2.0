@@ -12,6 +12,10 @@ import android.widget.TextView;
 import com.themealz.themealz.MealOptionDetailActivity;
 import com.themealz.themealz.R;
 
+import static com.themealz.themealz.R.drawable.meal01;
+import static com.themealz.themealz.R.drawable.meal02;
+import static com.themealz.themealz.R.drawable.meal03;
+
 public class MyFragment extends Fragment {
 
     static MealOptionDetailActivity contextActivity;
@@ -44,6 +48,23 @@ public class MyFragment extends Fragment {
 
         MyLinearLayout root = (MyLinearLayout) l.findViewById(R.id.root);
         Button content = (Button) l.findViewById(R.id.content);
+        switch (pos) {
+            case 0:
+                content.setBackgroundResource(meal01);
+                break;
+            case 1:
+                content.setBackgroundResource(meal02);
+                break;
+            case 2:
+                content.setBackgroundResource(meal03);
+                break;
+//            case 3:
+//                content.setBackgroundResource(meal04);
+//                break;
+//            case 4:
+//                content.setBackgroundResource(meal05);
+//                break;
+        }
         float scale = this.getArguments().getFloat("scale");
         root.setScaleBoth(scale);
         content.setOnClickListener(new View.OnClickListener() {
