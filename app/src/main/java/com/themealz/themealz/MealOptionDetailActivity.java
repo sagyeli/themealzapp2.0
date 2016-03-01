@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.MenuItem;
 
 import com.carouseldemo.controls.Carousel;
@@ -237,7 +238,11 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
             pager.setAdapter(adapter);
             pager.addOnPageChangeListener(adapter);
             pager.setOffscreenPageLimit(3);
-            pager.setPageMargin(-750);
+            pager.setPageMargin((int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    -150,
+                    mContext.getResources().getDisplayMetrics()
+            ));
         }
 
         @Override
