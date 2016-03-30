@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,6 @@ public class DetailsForm extends Activity implements View.OnClickListener {
 
     String orderMessageText;
     String recipientDetails;
-    String mTestingPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +45,8 @@ public class DetailsForm extends Activity implements View.OnClickListener {
         theMealzApplication = ((TheMealzApplication) getApplication());
 
         // This is made for texting purposes only...
-        TelephonyManager tMgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        mTestingPhoneNumber = tMgr.getLine1Number();
+//        TelephonyManager tMgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+//        mTestingPhoneNumber = tMgr.getLine1Number();
         //
     }
 
@@ -112,7 +110,7 @@ public class DetailsForm extends Activity implements View.OnClickListener {
                 URL url = new URL("http://themealz.com/api/ordermessages");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 StringBuilder postData = new StringBuilder();
-                postData.append("{ \"numberTo\": \"" + mTestingPhoneNumber + "\", \"text\": \"" + orderMessageText + "\" }");
+                postData.append("{ \"restaurant\": \"" + theMealzApplication.getSelectedMeal().get("restaurant_id") + "\", \"text\": \"" + orderMessageText + "\" }");
                 byte[] postDataBytes = postData.toString().getBytes("UTF-8");
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setRequestProperty("Content-Type", "application/json");
