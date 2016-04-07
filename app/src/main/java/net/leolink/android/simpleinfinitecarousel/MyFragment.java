@@ -1,5 +1,10 @@
 package net.leolink.android.simpleinfinitecarousel;
 
+import android.annotation.TargetApi;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,25 +17,26 @@ import android.widget.TextView;
 import com.themealz.themealz.MealOptionDetailActivity;
 import com.themealz.themealz.R;
 
-import static com.themealz.themealz.R.drawable.meal01;
-import static com.themealz.themealz.R.drawable.meal02;
-import static com.themealz.themealz.R.drawable.meal03;
+import java.io.IOException;
+import java.net.URL;
 
 public class MyFragment extends Fragment {
 
     static MealOptionDetailActivity contextActivity;
 
-    public static Fragment newInstance(MealOptionDetailActivity context, int pos, String title, float scale)
+    public static Fragment newInstance(MealOptionDetailActivity context, int pos, String title, String imageURL, float scale)
     {
         Bundle b = new Bundle();
         b.putInt("pos", pos);
         b.putString("title", title);
+        b.putString("imageURL", imageURL);
         b.putFloat("scale", scale);
 
         contextActivity = context;
         return Fragment.instantiate(context, MyFragment.class.getName(), b);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,28 +49,23 @@ public class MyFragment extends Fragment {
 
         final int pos = this.getArguments().getInt("pos");
         String title = this.getArguments().getString("title");
+        String imageURL = this.getArguments().getString("imageURL");
         TextView tv = (TextView) l.findViewById(R.id.text);
         tv.setText(title);
 
         MyLinearLayout root = (MyLinearLayout) l.findViewById(R.id.root);
         Button content = (Button) l.findViewById(R.id.content);
-        switch (pos) {
-            case 0:
-                content.setBackgroundResource(meal01);
-                break;
-            case 1:
-                content.setBackgroundResource(meal02);
-                break;
-            case 2:
-                content.setBackgroundResource(meal03);
-                break;
-//            case 3:
-//                content.setBackgroundResource(meal04);
-//                break;
-//            case 4:
-//                content.setBackgroundResource(meal05);
-//                break;
+
+        if (imageURL != null && imageURL != "") {
+            try {
+                URL url = new URL(imageURL);
+                Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                content.setBackground(new BitmapDrawable(getResources(), bitmap));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
         float scale = this.getArguments().getFloat("scale");
         root.setScaleBoth(scale);
         content.setOnClickListener(new View.OnClickListener() {

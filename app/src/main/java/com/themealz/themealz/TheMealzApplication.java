@@ -41,10 +41,11 @@ public class TheMealzApplication extends Application {
         this.mealOptionsArrayList = mealsOptionsList;
     }
 
-    public void addToMealOptionsMap(final String mealsOptionId, final String mealsOptionTitle) {
+    public void addToMealOptionsMap(final String mealsOptionId, final String mealsOptionTitle, final String mealsOptionImageURL) {
         this.mealOptionsArrayList.add(new HashMap<String, String>() {{
             put("id", mealsOptionId);
             put("title", mealsOptionTitle);
+            put("imageURL", mealsOptionImageURL);
         }});
     }
 
@@ -73,6 +74,10 @@ public class TheMealzApplication extends Application {
 
     public String[] getTitlesArray() {
         return pluck("title");
+    }
+
+    public String[] getImageURLsArray() {
+        return pluck("imageURL");
     }
 
     public HashMap<String, String> getSelectedMeal() {

@@ -108,7 +108,7 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
     }
 
     public void onItemSelected(int position) {
-        ((TheMealzApplication) this.getApplication()).addToMealOptionsMap(ids.get(position), infos.get(position).get("title").toString());
+        ((TheMealzApplication) this.getApplication()).addToMealOptionsMap(ids.get(position), infos.get(position).get("title").toString(), infos.get(position).get("imageURL").toString());
         
         Intent detailIntent;
         if ((boolean) infos.get(position).get("hasRealChildren")) {
@@ -204,6 +204,7 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
                 try {
                     HashMap info = new HashMap();
                     info.put("title", ja.getJSONObject(i).has("label") && ja.getJSONObject(i).getString("label").length() > 0 ? ja.getJSONObject(i).getString("label") : ja.getJSONObject(i).getString("name"));
+                    info.put("imageURL", ja.getJSONObject(i).has("imageURL") && ja.getJSONObject(i).getString("imageURL").length() > 0 ? ja.getJSONObject(i).getString("imageURL") : null);
                     info.put("hasRealChildren", ja.getJSONObject(i).has("hasRealChildren") ? ja.getJSONObject(i).getBoolean("hasRealChildren") : false);
                     infos.add(info);
                     ids.add(ja.getJSONObject(i).getString("_id"));
