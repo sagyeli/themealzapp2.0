@@ -108,7 +108,7 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
     }
 
     public void onItemSelected(int position) {
-        ((TheMealzApplication) this.getApplication()).addToMealOptionsMap(ids.get(position), infos.get(position).get("title").toString(), infos.get(position).get("imageURL").toString());
+        ((TheMealzApplication) this.getApplication()).addToMealOptionsMap(ids.get(position), (String)infos.get(position).get("title"), (String)infos.get(position).get("imageURL"));
         
         Intent detailIntent;
         if ((boolean) infos.get(position).get("hasRealChildren")) {
