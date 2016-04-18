@@ -24,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:layoutDirection="rtl">
 
             <TableRow android:id="@+id/mainTableRow01"
                 android:gravity="center_vertical|center_horizontal">
