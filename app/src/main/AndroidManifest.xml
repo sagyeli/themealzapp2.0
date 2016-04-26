@@ -73,7 +73,13 @@
         </activity>
         <activity
             android:name=".MealOptionFlavorsActivity"
-            android:label="@string/title_activity_meal_option_flavors"></activity>
+            android:configChanges="orientation"
+            android:label="@string/title_activity_meal_option_flavors"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>
