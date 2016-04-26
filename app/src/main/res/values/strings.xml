@@ -18,4 +18,6 @@
     <string name="house_number">מספר בית</string>
     <string name="flat_number">מספר דירה</string>
     <string name="phone_number">מספר טלפון</string>
+    <string name="title_activity_meal_option_flavors">MealOptionFlavorsActivity</string>
+    <string name="meal_option_flavors_submit_button"><![CDATA[המשך >]]></string>
 </resources>

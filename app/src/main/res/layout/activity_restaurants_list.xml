@@ -23,7 +23,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/restaurants_list_title"
-        android:background="@drawable/order_summary_wrapper_border"
+        android:background="@drawable/wrapper_border"
         android:layoutDirection="rtl"
         android:padding="10dp"
         android:layout_margin="10dp"

@@ -103,7 +103,7 @@
                 android:layout_weight="1"
                 android:padding="5dp"
                 android:textColor="@color/default_text_color"
-                android:background="@drawable/order_summary_wrapper_border" />
+                android:background="@drawable/wrapper_border" />
 
         </LinearLayout>
 
@@ -130,7 +130,7 @@
                 android:layout_weight="1"
                 android:padding="5dp"
                 android:textColor="@color/default_text_color"
-                android:background="@drawable/order_summary_wrapper_border"/>
+                android:background="@drawable/wrapper_border"/>
 
         </LinearLayout>
 
@@ -166,7 +166,7 @@
                     android:layout_weight="1"
                     android:padding="5dp"
                     android:textColor="@color/default_text_color"
-                    android:background="@drawable/order_summary_wrapper_border" />
+                    android:background="@drawable/wrapper_border" />
 
             </LinearLayout>
 
@@ -194,7 +194,7 @@
                     android:layout_weight="1"
                     android:padding="5dp"
                     android:textColor="@color/default_text_color"
-                    android:background="@drawable/order_summary_wrapper_border" />
+                    android:background="@drawable/wrapper_border" />
 
             </LinearLayout>
 
@@ -223,7 +223,7 @@
                 android:layout_weight="1"
                 android:padding="5dp"
                 android:textColor="@color/default_text_color"
-                android:background="@drawable/order_summary_wrapper_border"/>
+                android:background="@drawable/wrapper_border"/>
 
         </LinearLayout>
 
@@ -236,7 +236,7 @@
         android:id="@+id/submit_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/order_summary_wrapper_border"
+        android:background="@drawable/wrapper_border"
         android:textColor="@color/default_text_color"
         android:layout_margin="20dp" />
 

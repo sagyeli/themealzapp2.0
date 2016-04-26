@@ -39,6 +39,7 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_LAST_ITEM_ID = "last_item_id";
+    public static final String HAS_REAL_CHILDREN = "has_real_children";
 
     private Context mContext = this;
     private String parentID;
@@ -111,7 +112,12 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
         ((TheMealzApplication) this.getApplication()).addToMealOptionsMap(ids.get(position), (String)infos.get(position).get("title"), (String)infos.get(position).get("imageURL"));
         
         Intent detailIntent;
-        if ((boolean) infos.get(position).get("hasRealChildren")) {
+        if ((boolean) infos.get(position).get("hasFlavors")) {
+            detailIntent = new Intent(mContext, MealOptionFlavorsActivity.class);
+            detailIntent.putExtra(ARG_ITEM_ID, ids.get(position));
+            detailIntent.putExtra(HAS_REAL_CHILDREN, (boolean) infos.get(position).get("hasRealChildren"));
+        }
+        else if ((boolean) infos.get(position).get("hasRealChildren")) {
             detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
             detailIntent.putExtra(ARG_ITEM_ID, ids.get(position));
         }
@@ -206,6 +212,7 @@ public class MealOptionDetailActivity extends FragmentActivity /*AppCompatActivi
                     info.put("title", ja.getJSONObject(i).has("label") && ja.getJSONObject(i).getString("label").length() > 0 ? ja.getJSONObject(i).getString("label") : ja.getJSONObject(i).getString("name"));
                     info.put("imageURL", ja.getJSONObject(i).has("imageURL") && ja.getJSONObject(i).getString("imageURL").length() > 0 ? ja.getJSONObject(i).getString("imageURL") : null);
                     info.put("hasRealChildren", ja.getJSONObject(i).has("hasRealChildren") ? ja.getJSONObject(i).getBoolean("hasRealChildren") : false);
+                    info.put("hasFlavors", ja.getJSONObject(i).has("hasFlavors") ? ja.getJSONObject(i).getBoolean("hasFlavors") : false);
                     infos.add(info);
                     ids.add(ja.getJSONObject(i).getString("_id"));
                 } catch (JSONException e) {
