@@ -6,6 +6,26 @@
     tools:context="com.themealz.themealz.MealOptionFlavorsActivity"
     android:background="@drawable/main_background" >
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none"
+        android:layout_weight="1"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TableLayout
+            android:id="@+id/flavors_table"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="*"
+            android:layout_centerHorizontal="true" >
+
+        </TableLayout>
+
+    </ScrollView>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
