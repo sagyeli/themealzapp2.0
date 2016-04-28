@@ -1,6 +1,7 @@
 package com.themealz.themealz;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,16 @@ public class TheMealzApplication extends Application {
     public ArrayList<String> getMealOptionsTitlesArrayList() {
         ArrayList<String> titles = new ArrayList();
         for (HashMap<String, String> mealOtion : this.mealOptionsArrayList) {
-            titles.add(mealOtion.get("title"));
+            titles.add(mealOtion.get("title") + "(" + TextUtils.join(", ", getMealOptionFlavorsTitlesArrayList(mealOtion.get("id"))) + ")");
+        }
+
+        return titles;
+    }
+
+    public ArrayList<String> getMealOptionFlavorsTitlesArrayList(String parentID) {
+        ArrayList<String> titles = new ArrayList();
+        for (HashMap<String, String> mealOtionFlavor : this.mealOptionFlavorsHashMap.get(parentID)) {
+            titles.add(mealOtionFlavor.get("title"));
         }
 
         return titles;
