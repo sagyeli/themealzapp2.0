@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class TheMealzApplication extends Application {
 
     private ArrayList<HashMap<String, String>> mealOptionsArrayList;
+    private HashMap<String, ArrayList<HashMap<String, String>>> mealOptionFlavorsHashMap;
     private HashMap<String, String> selectedMeal;
 
     private String[] pluck(String key) {
@@ -22,6 +23,7 @@ public class TheMealzApplication extends Application {
 
     public TheMealzApplication() {
         this.mealOptionsArrayList = new ArrayList<HashMap<String, String>>();
+        this.mealOptionFlavorsHashMap = new HashMap<String, ArrayList<HashMap<String, String>>>();
     }
 
     public ArrayList<HashMap<String, String>> getMealOptionsArrayList() {
@@ -61,6 +63,36 @@ public class TheMealzApplication extends Application {
 
         if (mealOptionToRemove != null) {
             this.mealOptionsArrayList.remove(mealOptionToRemove);
+        }
+    }
+
+    public void addMealOptionFlavor(String parentID, final String mealOptionFlavorId, final String mealOptionFlavorTitle) {
+        if (this.mealOptionFlavorsHashMap.get(parentID) == null) {
+            this.mealOptionFlavorsHashMap.put(parentID, new ArrayList<HashMap<String, String>>());
+        }
+
+        ArrayList<HashMap<String, String>> flavors = this.mealOptionFlavorsHashMap.get(parentID);
+        for (HashMap<String, String> flavor : flavors) {
+            if (flavor.get("id").equals(mealOptionFlavorId)) {
+                return;
+            }
+        }
+        flavors.add(new HashMap<String, String>() {{
+            put("id", mealOptionFlavorId);
+            put("title", mealOptionFlavorTitle);
+        }});
+    }
+
+    public void removeMealOptionFlavor(String parentID, final String mealOptionFlavorId) {
+        if (this.mealOptionFlavorsHashMap.get(parentID) == null) {
+            this.mealOptionFlavorsHashMap.put(parentID, new ArrayList<HashMap<String, String>>());
+        }
+
+        ArrayList<HashMap<String, String>> flavors = this.mealOptionFlavorsHashMap.get(parentID);
+        for (HashMap<String, String> flavor : flavors) {
+            if (flavor.get("id").equals(mealOptionFlavorId)) {
+                flavors.remove(flavor);
+            }
         }
     }
 

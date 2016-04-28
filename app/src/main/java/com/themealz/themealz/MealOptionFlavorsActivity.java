@@ -12,7 +12,9 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class MealOptionFlavorsActivity extends Activity
     public static final String ARG_LAST_ITEM_ID = "last_item_id";
     public static final String HAS_REAL_CHILDREN = "has_real_children";
 
+    private String parentID;
     private Context mContext = this;
 
     private TableLayout mFlavorsTable;
@@ -45,6 +48,8 @@ public class MealOptionFlavorsActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_option_flavors);
+
+        parentID = getIntent().getStringExtra(ARG_ITEM_ID);
 
         mFlavorsTable = (TableLayout) findViewById(R.id.flavors_table);
         mSubmitButton = (Button) findViewById(R.id.submit_button);
@@ -60,11 +65,11 @@ public class MealOptionFlavorsActivity extends Activity
 
         if (getIntent().getBooleanExtra(HAS_REAL_CHILDREN, false)) {
             detailIntent = new Intent(mContext, MealOptionDetailActivity.class);
-            detailIntent.putExtra(ARG_ITEM_ID, getIntent().getStringExtra(ARG_ITEM_ID));
+            detailIntent.putExtra(ARG_ITEM_ID, parentID);
         }
         else {
             detailIntent = new Intent(mContext, RestaurantsListActivity.class);
-            detailIntent.putExtra(ARG_LAST_ITEM_ID, getIntent().getStringExtra(ARG_ITEM_ID));
+            detailIntent.putExtra(ARG_LAST_ITEM_ID, parentID);
         }
         startActivity(detailIntent);
     }
@@ -93,7 +98,7 @@ public class MealOptionFlavorsActivity extends Activity
         @Override
         protected String doInBackground(String... params) {
             try {
-                URL url = new URL("http://themealz.com/api/mealOptionFlavors/showRelevantsToMealOption/" + getIntent().getStringExtra(ARG_ITEM_ID));
+                URL url = new URL("http://themealz.com/api/mealOptionFlavors/showRelevantsToMealOption/" + parentID);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
@@ -136,12 +141,29 @@ public class MealOptionFlavorsActivity extends Activity
                         TableRow.LayoutParams.WRAP_CONTENT));
 
                 try {
+                    final String id = ja.getJSONObject(i).getString("_id");
+                    final String name = ja.getJSONObject(i).getString("name");
 //                    addItemToRow(Integer.toString(i + 1), tr, new HashMap<String, Object>() {{
 //                        put("textSize", 30f);
 //                        put("textColor", R.color.default_text_color);
 //                    }});
-
                     addItemToRow(ja.getJSONObject(i).getString("name"), tr, null);
+                    Switch mSwitch = new Switch(mContext);
+                    mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            TheMealzApplication theMealzApplication = (TheMealzApplication) ((Activity) mContext).getApplication();
+
+                            if(isChecked) {
+                                theMealzApplication.addMealOptionFlavor(parentID, id, name);
+                            }
+                            else {
+                                theMealzApplication.removeMealOptionFlavor(parentID, id);
+                            }
+                        }
+                    });
+                    tr.addView(mSwitch);
+
                     mFlavorsTable.addView(tr);
                 } catch (JSONException e) {
                     e.printStackTrace();
