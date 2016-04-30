@@ -114,6 +114,22 @@ public class TheMealzApplication extends Application {
         return pluck("id");
     }
 
+    public String getFlavorsIdsJSON() {
+        ArrayList<String> jsonResultArray = new ArrayList<String>();
+
+        for (String key : mealOptionFlavorsHashMap.keySet())
+        {
+            ArrayList<String> flavorsIdsArray = new ArrayList<String>();
+            for (HashMap<String, String> flavor : mealOptionFlavorsHashMap.get(key)) {
+                flavorsIdsArray.add("\"" + flavor.get("id") + "\"");
+            }
+
+            jsonResultArray.add("\"" + key + "\":[" + TextUtils.join(",", flavorsIdsArray) + "]");
+        }
+
+        return "{" + TextUtils.join(",", jsonResultArray) + "}";
+    }
+
     public String[] getTitlesArray() {
         return pluck("title");
     }
