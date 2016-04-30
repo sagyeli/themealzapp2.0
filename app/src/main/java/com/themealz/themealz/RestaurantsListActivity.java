@@ -127,8 +127,7 @@ public class RestaurantsListActivity extends AppCompatActivity
                 URL url = new URL("http://themealz.com/api/restaurantslistsuggestions");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 StringBuilder postData = new StringBuilder();
-                postData.append("{ \"mealOptions\": [\"" + TextUtils.join("\",\"", ((TheMealzApplication) mContext.getApplication()).getIdsArray()) + "\"] }");
-                postData.append("{ \"mealOptionFlavors\": " + ((TheMealzApplication) mContext.getApplication()).getFlavorsIdsJSON() + " }");
+                postData.append("{ \"mealOptions\": [\"" + TextUtils.join("\",\"", ((TheMealzApplication) mContext.getApplication()).getIdsArray()) + "\"], \"mealOptionFlavors\": " + ((TheMealzApplication) mContext.getApplication()).getFlavorsIdsJSON() + " }");
                 byte[] postDataBytes = postData.toString().getBytes("UTF-8");
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setRequestProperty("Content-Type", "application/json");
